@@ -79,6 +79,25 @@ export default function HomeScreen() {
 
 		<View style={styles.dailyContainer}>
 			<Text style={styles.textDailyConatiner}>Rotina diária</Text>
+			<Pressable
+				onPress={() => router.push('/insights')}
+				style={({ pressed }) => [
+				{
+					transform: [{ scale: pressed ? 0.95 : 1 }],
+					shadowOpacity: pressed ? 0.4 : 0.2,
+				},
+				]}
+			>
+				{({ pressed }) => (
+				<Text
+					style={[
+					styles.textButtonInsight,
+						{ color: pressed ? '#6B1E9C' : 'gray' }
+					]}>
+					Estatísticas
+					</Text>
+					)}
+			</Pressable>
 		</View>
 
 		<View style={styles.plusContainer}>
@@ -162,16 +181,24 @@ const styles = StyleSheet.create({
 	image: {
 		width: 125,
 		height: 90,
-		// resizeMode: 'contain',
 		right: 20
 	},
 	dailyContainer: {
-		backgroundColor: "yellow",
+		width: "96%",
+		marginTop: 20,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 	},
 	textDailyConatiner: {
 		fontSize: 20,
 		marginLeft: 15,
 		fontWeight: "bold",
+	},
+	textButtonInsight: {
+		fontSize: 16,
+		fontWeight: "bold",
+		color: "gray",
 	},
 	iconView: {
 		justifyContent: "center",

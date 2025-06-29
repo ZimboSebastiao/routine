@@ -62,6 +62,14 @@ export default function TabLayout() {
 		   href: null,
         }}
       />
+	  	<Tabs.Screen
+        name="insights"
+        options={{
+          title: 'Insights',
+          tabBarIcon: ({ color }) => <UserRound size={28}  color={color} />,
+		   href: null
+        }}
+      />
     </Tabs>
   );
 }
