@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "routine",
-    "slug": "routine",
+    "name": "Daily Glow",
+    "slug": "Daily Glow",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "routine",
+    "scheme": "Daily Glow",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
