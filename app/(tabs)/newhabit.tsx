@@ -1,16 +1,17 @@
 import MonthPicker from '@/components/MonthPicker';
 import WeeklyFrequency from '@/components/WeeklyFrequency';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { useRouter } from 'expo-router';
+import { Calendar, X } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Avatar, Checkbox, Switch } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Calendar, X } from 'lucide-react-native';
-import { Avatar, Checkbox, Switch } from 'react-native-paper';
-
-
 export default function NewHabit() {
+	const router = useRouter();
 	const [checked, setChecked] = React.useState(false);
+	const [checked2, setChecked2] = React.useState(false);
 	const [date, setDate] = useState(new Date());
 	const [showPicker, setShowPicker] = useState(false);
 	const [displayValue, setDisplayValue] = useState('');
@@ -37,6 +38,7 @@ export default function NewHabit() {
 		<View style={styles.titleIconContainer}>
 			<Text style={styles.titleContainer}>Novo hábito</Text>
 			<Pressable 
+				onPress={() => router.push('/')}
 				style={({ pressed }) => [
 					styles.iconView,
 					{
@@ -44,7 +46,8 @@ export default function NewHabit() {
 						opacity: pressed ? 0.8 : 1,
 					}
 					]}
-			>
+					
+				>
 				{({ pressed }) => (
 					<X 
 					size={34} 
@@ -119,8 +122,8 @@ export default function NewHabit() {
 				<View style={styles.checkbocContainer}>
 					<Text style={styles.textTitle}>Frequência</Text>
 					<Checkbox
-						status={checked ? 'checked' : 'unchecked'}
-						onPress={() => {setChecked(!checked);}}
+						status={checked2 ? 'checked' : 'unchecked'}
+						onPress={() => {setChecked2(!checked2);}}
 						color="#FF7617"
 					/>
 				</View>
