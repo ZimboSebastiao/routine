@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Calendar } from 'lucide-react-native';
-import { Avatar, Checkbox } from 'react-native-paper';
+import { Avatar, Checkbox, Switch } from 'react-native-paper';
 
 
 export default function NewHabit() {
@@ -15,6 +15,10 @@ export default function NewHabit() {
 	const [showPicker, setShowPicker] = useState(false);
 	const [displayValue, setDisplayValue] = useState('');
 	const [diasSelecionados, setDiasSelecionados] = useState<number[]>([]);
+	const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+	const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+
+  	const scaleSize = 1.7;
 	
 	
 	const onChange = (event: any, selectedDate?: Date) => {
@@ -29,13 +33,13 @@ export default function NewHabit() {
 
   return (
 	 <SafeAreaProvider style={styles.container}>
-		<ScrollView>
+		
 			
 		<Text style={styles.titleContainer}>Novo hábito</Text>
 		<View style={styles.avatarContainer}>
 			<Avatar.Image size={180} source={require('@/assets/images/flower.jpg')} />
 		</View>
-
+		<ScrollView>
 		<View style={styles.forms}>
 			<View>
 				<Text style={styles.textTitle}>Título do hábito</Text>
@@ -104,6 +108,20 @@ export default function NewHabit() {
 
 				<View>
 					<WeeklyFrequency onChange={(dias) => setDiasSelecionados(dias)} />
+				</View>
+			</View>
+
+			<View>
+				<View style={styles.checkbocContainer}>
+					<Text style={styles.textTitle}>Receber lembretes</Text>
+					<View style={{ transform: [{ scaleX: scaleSize }, { scaleY: scaleSize }] }}>
+					<Switch 
+						value={isSwitchOn} 
+						onValueChange={onToggleSwitch}
+						color="#FF7617" 
+						style={styles.switchContainer}
+					/>
+					</View>
 				</View>
 			</View>
 		</View>
@@ -182,6 +200,9 @@ const styles = StyleSheet.create({
 	},
 	daysContainer: {
 		marginVertical: 35,
+	},
+	switchContainer: {
+		height: 40
 	}
 
 });
