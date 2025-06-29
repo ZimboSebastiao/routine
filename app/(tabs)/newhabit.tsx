@@ -1,9 +1,10 @@
+import MonthPicker from '@/components/MonthPicker';
 import React, { useState } from 'react';
 import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Calendar, ChevronDown } from 'lucide-react-native';
+import { Calendar } from 'lucide-react-native';
 import { Avatar, Checkbox } from 'react-native-paper';
 
 
@@ -13,13 +14,16 @@ export default function NewHabit() {
 	const [showPicker, setShowPicker] = useState(false);
 	const [displayValue, setDisplayValue] = useState('');
 	
-	 const onChange = (event: any, selectedDate?: Date) => {
-    setShowPicker(Platform.OS === 'ios');
-    if (selectedDate) {
-      setDate(selectedDate);
-      setDisplayValue(selectedDate.toLocaleDateString('pt-BR')); // Formato brasileiro
-    }
-  };
+	
+	const onChange = (event: any, selectedDate?: Date) => {
+		setShowPicker(Platform.OS === 'ios');
+		if (selectedDate) {
+		setDate(selectedDate);
+		setDisplayValue(selectedDate.toLocaleDateString('pt-BR')); 
+		}
+	};
+
+	
 
   return (
 	 <SafeAreaProvider style={styles.container}>
@@ -76,7 +80,7 @@ export default function NewHabit() {
 								/>
 							)}
 
-						<View style={styles.inputContainer}>
+						{/* <View style={styles.inputContainer}>
 							<TextInput
 							style={styles.formGoal}
 							placeholder="Mês"
@@ -90,7 +94,8 @@ export default function NewHabit() {
 							>
 							<ChevronDown width={24} height={24} color="gray" />
 							</TouchableOpacity>
-						</View>
+						</View> */}
+						<MonthPicker />
 					</View>
 
 				</View>
@@ -124,6 +129,7 @@ const styles = StyleSheet.create({
 	},
 	textTitle: {
 		fontSize: 18,
+		color: "gray"
 	},
 	formInput: {
 		height: 55,
@@ -133,7 +139,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		backgroundColor: 'white',
 		fontSize: 18,
-		color: '#333',
+		color: "gray",
 		marginVertical: 12,
 	},
 	checkbocContainer: {
@@ -161,16 +167,16 @@ const styles = StyleSheet.create({
 		borderColor: 'white',
 		borderRadius: 10,
 		backgroundColor: '#FFF',
-  },
-  iconCalendar: {
+	},
+	iconCalendar: {
+			backgroundColor: "red",
+			width: 0,
+			marginLeft: -30,
+	},
+	goalContainer: {
 		backgroundColor: "red",
-		width: 0,
-		marginLeft: -30,
-  },
-  goalContainer: {
-	backgroundColor: "red",
-	flexDirection: "row",
-	gap: 20,
-  }
+		flexDirection: "row",
+		gap: 20,
+	}
 
 });
