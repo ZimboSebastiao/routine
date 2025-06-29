@@ -1,11 +1,11 @@
 import MonthPicker from '@/components/MonthPicker';
 import WeeklyFrequency from '@/components/WeeklyFrequency';
 import React, { useState } from 'react';
-import { Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Calendar } from 'lucide-react-native';
+import { Calendar, X } from 'lucide-react-native';
 import { Avatar, Checkbox, Switch } from 'react-native-paper';
 
 
@@ -34,8 +34,27 @@ export default function NewHabit() {
   return (
 	 <SafeAreaProvider style={styles.container}>
 		
-			
-		<Text style={styles.titleContainer}>Novo hábito</Text>
+		<View style={styles.titleIconContainer}>
+			<Text style={styles.titleContainer}>Novo hábito</Text>
+			<Pressable 
+				style={({ pressed }) => [
+					styles.iconView,
+					{
+						transform: [{ scale: pressed ? 0.95 : 1 }],
+						opacity: pressed ? 0.8 : 1,
+					}
+					]}
+			>
+				{({ pressed }) => (
+					<X 
+					size={34} 
+					color={pressed ? '#FF7617' : '#000000'}
+					/>
+				)}
+			</Pressable>
+
+		</View>
+
 		<View style={styles.avatarContainer}>
 			<Avatar.Image size={180} source={require('@/assets/images/flower.jpg')} />
 		</View>
@@ -124,6 +143,27 @@ export default function NewHabit() {
 					</View>
 				</View>
 			</View>
+
+			<View style={styles.saveContainer}>
+				<Pressable
+					style={({ pressed }) => [
+					styles.buttonSave,
+					{
+						transform: [{ scale: pressed ? 0.95 : 1 }],
+						opacity: pressed ? 0.8 : 1,
+					}
+					]}
+				>
+					{({ pressed }) => (
+					<Text style={[
+						styles.textSave,
+						{ color: pressed ? '#f0f0f0' : 'white' }
+					]}>
+						Salvar Hábito
+					</Text>
+					)}
+				</Pressable>
+			</View>
 		</View>
 		</ScrollView>
 
@@ -142,6 +182,22 @@ const styles = StyleSheet.create({
 	  fontWeight: 'bold',
 	  marginLeft: 15,
 	  
+	},
+	titleIconContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		width: "94%",
+	},
+	iconView: {
+		justifyContent: "center",
+		alignItems: "center",
+		width: 50,
+		height: 50,
+		backgroundColor: "white",
+		borderRadius: 50,
+		borderWidth: 1,
+		borderColor: "white",
 	},
 	avatarContainer: {
 	  marginBottom: 30,
@@ -203,6 +259,28 @@ const styles = StyleSheet.create({
 	},
 	switchContainer: {
 		height: 40
+	},
+	saveContainer: {
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	buttonSave: {
+		backgroundColor: "#FF7617",
+		padding: 20,
+		marginBottom: 20,
+		width: "94%",
+		borderRadius: 30,
+		elevation: 3,
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.2,
+		shadowRadius: 4,
+	},
+	textSave: {
+		fontSize: 17,
+		color: "white",
+		fontWeight: "bold",
+		textAlign: "center",
 	}
 
 });
