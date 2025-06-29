@@ -56,6 +56,7 @@ export default function NewHabit() {
 						/>
 						<TouchableOpacity 
 						onPress={() => setShowPicker(true)}
+						style={styles.iconCalendar}
 						
 						>
 						<Calendar width={24} height={24} color="gray" />
@@ -122,21 +123,27 @@ const styles = StyleSheet.create({
 		marginBottom: 50,
 	},
 	formGoal: {
-		width: "80%",
-		height: 41,
+		width: "100%",
+		height: 60,
 		backgroundColor: 'white',
 		fontSize: 18,
 		color: '#333',
 		marginVertical: 12,
+		borderRadius: 10,
 	},
 	inputContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		width: "50%",
+		width: "48%",
 		borderWidth: 1,
 		borderColor: 'white',
 		borderRadius: 10,
 		backgroundColor: '#FFF',
   },
+  iconCalendar: {
+		backgroundColor: "red",
+		width: 0,
+		marginLeft: -30,
+  }
 
 });
