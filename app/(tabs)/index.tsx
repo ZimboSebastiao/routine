@@ -2,7 +2,10 @@ import UserAvatar from '@/components/UserAvatar';
 import WeeklyCalendar from "@/components/WeeklyCalendar";
 import { useGreeting } from "@/hooks/useGreeting";
 import { formatFullDateCapitalized } from "@/utils/dateFormatter";
+import { useRouter } from 'expo-router';
+import { Plus } from 'lucide-react-native';
 import {
+	Pressable,
 	StyleSheet,
 	Text,
 	View
@@ -10,8 +13,9 @@ import {
 
 
 export default function HomeScreen() {
-const greeting = useGreeting();
-const today = new Date();
+	const router = useRouter();
+	const greeting = useGreeting();
+	const today = new Date();
 
   return (
 	<View style={styles.container}>
@@ -20,7 +24,7 @@ const today = new Date();
 				<Text style={styles.textStepContainer}>
 					{greeting}, Zimbo
 				</Text>
-				<Text>{formatFullDateCapitalized(today)}</Text>
+				<Text style={styles.todayText}>{formatFullDateCapitalized(today)}</Text>
 			</View>
 
 			<View>
@@ -36,6 +40,23 @@ const today = new Date();
 		<View style={styles.dailyContainer}>
 			<Text style={styles.textDailyConatiner}>Rotina diária</Text>
 		</View>
+
+		 <View style={styles.plusContainer}>
+      <Pressable
+        onPress={() => router.push('/newhabit')}
+        style={({ pressed }) => [
+          styles.iconView,
+          {
+            transform: [{ scale: pressed ? 0.95 : 1 }],
+            shadowOpacity: pressed ? 0.4 : 0.2,
+            elevation: pressed ? 6 : 3,
+          },
+        ]}
+      >
+        <Plus size={40} color="#fff" />
+      </Pressable>
+    </View>
+
 	</View>
   );
 }
@@ -55,16 +76,38 @@ const styles = StyleSheet.create({
 		marginLeft: 10,
 	},
 	textStepContainer: {
-		fontSize: 22,
+		fontSize: 25,
 		fontWeight: "bold",
 		paddingBottom: 10,
   	},
+	todayText: {
+		fontWeight: "bold",
+		color: "gray",
+	},
 	dailyContainer: {
 		backgroundColor: "yellow",
 	},
 	textDailyConatiner: {
-		fontSize: 17,
+		fontSize: 20,
 		marginLeft: 15,
 		fontWeight: "bold",
+	},
+	iconView: {
+		justifyContent: "center",
+		alignItems: "center",
+		width: 60,
+		height: 60,
+		backgroundColor: "#642D08",
+		borderRadius: 30,
+		borderWidth: 1,
+		borderColor: "#642D08",
+		shadowColor: "#000",
+		shadowOffset: { width: 0, height: 2 },
+		shadowRadius: 4,
+  	},
+	plusContainer: {
+		position: "absolute",
+		bottom: 25,
+		right: 25,
 	},
 });

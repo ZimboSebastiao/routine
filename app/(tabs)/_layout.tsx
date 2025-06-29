@@ -53,6 +53,7 @@ export default function TabLayout() {
         options={{
           title: 'Hábito',
           tabBarIcon: ({ color }) => <UserRound size={28}  color={color} />,
+		   href: null,
         }}
       />
     </Tabs>

@@ -8,7 +8,7 @@ export default function Profile() {
    <View style={styles.container}>
 		<View style={styles.avatarContainer}>
 			 <UserAvatar 
-				size={120}
+				size={160}
 				defaultColor="#FF5722"
 				editable={true}
 			/>
