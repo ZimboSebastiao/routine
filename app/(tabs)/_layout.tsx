@@ -2,10 +2,9 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { House, UserRound } from 'lucide-react-native';
+import { CalendarDays, FileChartPie, House, UserRound } from 'lucide-react-native';
 
 import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -35,10 +34,17 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="calendar"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Calendário',
+          tabBarIcon: ({ color }) => <CalendarDays size={28}  color={color} />,
+        }}
+      />
+	    <Tabs.Screen
+        name="painel"
+        options={{
+          title: 'Painel',
+          tabBarIcon: ({ color }) => <FileChartPie size={28}  color={color} />,
         }}
       />
 	  <Tabs.Screen
