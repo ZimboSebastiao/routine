@@ -51,7 +51,7 @@ export default function NewHabit() {
 				{({ pressed }) => (
 					<X 
 					size={34} 
-					color={pressed ? '#FF7617' : '#000000'}
+					color={pressed ? '#A278C6' : '#000000'}
 					/>
 				)}
 			</Pressable>
@@ -59,7 +59,7 @@ export default function NewHabit() {
 		</View>
 
 		<View style={styles.avatarContainer}>
-			<Avatar.Image size={180} source={require('@/assets/images/flower.jpg')} />
+			<Avatar.Image size={180} source={require('@/assets/images/flow.jpg')} />
 		</View>
 		<ScrollView>
 		<View style={styles.forms}>
@@ -78,7 +78,7 @@ export default function NewHabit() {
 					<Checkbox
 						status={checked ? 'checked' : 'unchecked'}
 						onPress={() => {setChecked(!checked);}}
-						color="#FF7617"
+						color="#A278C6"
 					/>
 				</View>
 				
@@ -125,7 +125,7 @@ export default function NewHabit() {
 					<Checkbox
 						status={checked2 ? 'checked' : 'unchecked'}
 						onPress={() => {setChecked2(!checked2);}}
-						color="#FF7617"
+						color="#A278C6"
 					/>
 				</View>
 
@@ -141,7 +141,7 @@ export default function NewHabit() {
 					<Switch 
 						value={isSwitchOn} 
 						onValueChange={onToggleSwitch}
-						color="#FF7617" 
+						color="#A278C6" 
 						style={styles.switchContainer}
 					/>
 					</View>
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	buttonSave: {
-		backgroundColor: "#FF7617",
+		backgroundColor: "#A278C6",
 		padding: 20,
 		marginBottom: 20,
 		width: "94%",
