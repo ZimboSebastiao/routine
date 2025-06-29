@@ -15,20 +15,23 @@ const MonthPicker = () => {
   return (
     <View >
       {/* Input que mostra o mês selecionado */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.formGoal}
-          placeholder="Mês"
-          value={selectedMonth !== null ? mesesCompletos[selectedMonth] : ''}
-          editable={false}
-        />
-        <TouchableOpacity 
-          onPress={() => setShowModal(true)}
-          style={styles.iconCalendar}
-        >
-          <ChevronDown width={24} height={24} color="gray" />
-        </TouchableOpacity>
-      </View>
+	  <View style={styles.goalContainer}>
+
+		<View style={styles.inputContainer}>
+			<TextInput
+			style={styles.formGoal}
+			placeholder="Mês"
+			value={selectedMonth !== null ? mesesCompletos[selectedMonth] : ''}
+			editable={false}
+			/>
+			<TouchableOpacity 
+			onPress={() => setShowModal(true)}
+			style={styles.iconCalendar}
+			>
+			<ChevronDown width={24} height={24} color="gray" />
+			</TouchableOpacity>
+		</View>
+	  </View>
 
       {/* Modal com a lista de meses */}
       <Modal
@@ -98,13 +101,10 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		width: "71%",
-		borderWidth: 1,
-		borderColor: 'white',
 		borderRadius: 10,
 		backgroundColor: '#FFF',
 	},
 	iconCalendar: {
-			backgroundColor: "red",
 			width: 0,
 			marginLeft: -30,
 	},
@@ -117,6 +117,11 @@ const styles = StyleSheet.create({
 		marginVertical: 12,
 		borderRadius: 10,
 	},
+	goalContainer: {
+		height: 30,
+		flexDirection: "row",
+		gap: 20,
+	}
 
 });
 

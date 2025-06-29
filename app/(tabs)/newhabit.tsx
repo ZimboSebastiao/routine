@@ -1,6 +1,7 @@
 import MonthPicker from '@/components/MonthPicker';
+import WeeklyFrequency from '@/components/WeeklyFrequency';
 import React, { useState } from 'react';
-import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -13,6 +14,7 @@ export default function NewHabit() {
 	const [date, setDate] = useState(new Date());
 	const [showPicker, setShowPicker] = useState(false);
 	const [displayValue, setDisplayValue] = useState('');
+	const [diasSelecionados, setDiasSelecionados] = useState<number[]>([]);
 	
 	
 	const onChange = (event: any, selectedDate?: Date) => {
@@ -27,6 +29,8 @@ export default function NewHabit() {
 
   return (
 	 <SafeAreaProvider style={styles.container}>
+		<ScrollView>
+			
 		<Text style={styles.titleContainer}>Novo hábito</Text>
 		<View style={styles.avatarContainer}>
 			<Avatar.Image size={180} source={require('@/assets/images/flower.jpg')} />
@@ -43,7 +47,7 @@ export default function NewHabit() {
 
 			<View>
 				<View style={styles.checkbocContainer}>
-					<Text style={styles.textTitle}>Definir uma meta</Text>
+					<Text style={styles.textTitle}>Defina uma meta</Text>
 					<Checkbox
 						status={checked ? 'checked' : 'unchecked'}
 						onPress={() => {setChecked(!checked);}}
@@ -80,21 +84,6 @@ export default function NewHabit() {
 								/>
 							)}
 
-						{/* <View style={styles.inputContainer}>
-							<TextInput
-							style={styles.formGoal}
-							placeholder="Mês"
-							value={displayValue}
-							editable={false} 
-							/>
-							<TouchableOpacity 
-							onPress={() => setShowPicker(true)}
-							style={styles.iconCalendar}
-							
-							>
-							<ChevronDown width={24} height={24} color="gray" />
-							</TouchableOpacity>
-						</View> */}
 						<MonthPicker />
 					</View>
 
@@ -102,7 +91,23 @@ export default function NewHabit() {
 
 			</View>
 
+
+			<View style={styles.daysContainer}>
+				<View style={styles.checkbocContainer}>
+					<Text style={styles.textTitle}>Frequência</Text>
+					<Checkbox
+						status={checked ? 'checked' : 'unchecked'}
+						onPress={() => {setChecked(!checked);}}
+						color="#FF7617"
+					/>
+				</View>
+
+				<View>
+					<WeeklyFrequency onChange={(dias) => setDiasSelecionados(dias)} />
+				</View>
+			</View>
 		</View>
+		</ScrollView>
 
 	 </SafeAreaProvider>
   );
@@ -148,14 +153,14 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignContent: "center",
 		width: "94%",
-		marginBottom: 50,
+		marginBottom: 30,
 	},
 	formGoal: {
 		width: "100%",
-		height: 60,
 		backgroundColor: 'white',
 		fontSize: 18,
 		color: '#333',
+		height: 60,
 		marginVertical: 12,
 		borderRadius: 10,
 	},
@@ -163,20 +168,20 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		width: "44%",
-		borderWidth: 1,
-		borderColor: 'white',
-		borderRadius: 10,
 		backgroundColor: '#FFF',
 	},
 	iconCalendar: {
-			backgroundColor: "red",
 			width: 0,
 			marginLeft: -30,
 	},
 	goalContainer: {
-		backgroundColor: "red",
+		height: 30,
 		flexDirection: "row",
 		gap: 20,
+		width: '94%',
+	},
+	daysContainer: {
+		marginVertical: 35,
 	}
 
 });
