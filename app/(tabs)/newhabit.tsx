@@ -67,7 +67,8 @@ export default function NewHabit() {
 				<Text style={styles.textTitle}>Título do hábito</Text>
 				<TextInput
 					style={styles.formInput}
-					// placeholder="Digite aqui"
+					placeholder="Digite aqui"
+					placeholderTextColor={"#d1d1d1"}
 				/>
 			</View>
 

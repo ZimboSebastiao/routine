@@ -55,8 +55,25 @@ export default function HomeScreen() {
 					</View>
 				</View>
 				</View>
-			<Pressable>
-				<Text>Ativar agora</Text>
+			<Pressable
+				onPress={() => router.push('/newhabit')}
+					style={({ pressed }) => [
+					styles.reminderButton,
+					{
+						transform: [{ scale: pressed ? 0.95 : 1 }],
+						shadowOpacity: pressed ? 0.4 : 0.2,
+						elevation: pressed ? 6 : 3,
+					},
+					]}
+			>
+				{({ pressed }) => (
+				<Text style={[
+					styles.reminderTextButton,
+						{ color: pressed ? '#A278C6' : '#6B1E9C' }
+					]}>
+						Ativar agora
+					</Text>
+					)}
 			</Pressable>
 		</View>
 
@@ -108,7 +125,6 @@ const styles = StyleSheet.create({
 		color: "gray",
 	},
 	reminderContainer: {
-		// backgroundColor: "#D1F2FF",
 		backgroundColor: "#bea3d9",
 		marginLeft: 15,
 		width: "92%",
@@ -120,6 +136,17 @@ const styles = StyleSheet.create({
 	},
 	reminderTitle: {
 		fontSize: 19,
+		fontWeight: "bold",
+	},
+	reminderButton: {
+		backgroundColor: "#FDF7FF",
+		padding: 8,
+		width: "40%",
+		borderRadius: 20,
+		justifyContent: "center",
+		alignItems: "center"
+	},
+	reminderTextButton: {
 		fontWeight: "bold",
 	},
 	imageContainer: {
