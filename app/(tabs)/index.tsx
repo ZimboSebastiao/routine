@@ -2,6 +2,7 @@ import UserAvatar from '@/components/UserAvatar';
 import WeeklyCalendar from "@/components/WeeklyCalendar";
 import { useGreeting } from "@/hooks/useGreeting";
 import { formatFullDateCapitalized } from "@/utils/dateFormatter";
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { Plus } from 'lucide-react-native';
 import {
@@ -37,25 +38,47 @@ export default function HomeScreen() {
 		</View>
 		<WeeklyCalendar />
 
+		<View style={styles.reminderContainer}>
+			<Text style={styles.reminderTitle}>Ative o lembrete</Text>
+			<View>
+				<View style={styles.imageContainer}>
+					<View>
+						<Text style={styles.effectText}>Nunca perca sua rotina matinal!</Text>
+						<Text style={styles.effectText}>Receba um aviso e fique no ritmo.</Text>
+					</View>
+
+					<View>
+						<Image 
+							source={require('@/assets/images/date.png')} 
+							style={styles.image}
+						/>
+					</View>
+				</View>
+				</View>
+			<Pressable>
+				<Text>Ativar agora</Text>
+			</Pressable>
+		</View>
+
 		<View style={styles.dailyContainer}>
 			<Text style={styles.textDailyConatiner}>Rotina diária</Text>
 		</View>
 
-		 <View style={styles.plusContainer}>
-      <Pressable
-        onPress={() => router.push('/newhabit')}
-        style={({ pressed }) => [
-          styles.iconView,
-          {
-            transform: [{ scale: pressed ? 0.95 : 1 }],
-            shadowOpacity: pressed ? 0.4 : 0.2,
-            elevation: pressed ? 6 : 3,
-          },
-        ]}
-      >
-        <Plus size={40} color="#fff" />
-      </Pressable>
-    </View>
+		<View style={styles.plusContainer}>
+			<Pressable
+				onPress={() => router.push('/newhabit')}
+				style={({ pressed }) => [
+				styles.iconView,
+				{
+					transform: [{ scale: pressed ? 0.95 : 1 }],
+					shadowOpacity: pressed ? 0.4 : 0.2,
+					elevation: pressed ? 6 : 3,
+				},
+				]}
+			>
+				<Plus size={40} color="#fff" />
+			</Pressable>
+    	</View>
 
 	</View>
   );
@@ -83,6 +106,37 @@ const styles = StyleSheet.create({
 	todayText: {
 		fontWeight: "bold",
 		color: "gray",
+	},
+	reminderContainer: {
+		// backgroundColor: "#D1F2FF",
+		backgroundColor: "#bea3d9",
+		marginLeft: 15,
+		width: "92%",
+		padding: 14,
+		margin: 10,
+		borderWidth: 1,
+		borderColor: "#bea3d9",
+		borderRadius: 18,
+	},
+	reminderTitle: {
+		fontSize: 19,
+		fontWeight: "bold",
+	},
+	imageContainer: {
+		flexDirection: "row",
+		justifyContent: "space-around",
+		alignItems: "center",
+		alignContent: "center",
+	},
+	effectText: {
+		color: "#2d2c2e",
+		fontSize: 14.6,
+	},
+	image: {
+		width: 125,
+		height: 90,
+		// resizeMode: 'contain',
+		right: 20
 	},
 	dailyContainer: {
 		backgroundColor: "yellow",
