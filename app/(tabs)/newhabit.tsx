@@ -3,7 +3,7 @@ import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'r
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Calendar } from 'lucide-react-native';
+import { Calendar, ChevronDown } from 'lucide-react-native';
 import { Avatar, Checkbox } from 'react-native-paper';
 
 
@@ -27,6 +27,7 @@ export default function NewHabit() {
 		<View style={styles.avatarContainer}>
 			<Avatar.Image size={180} source={require('@/assets/images/flower.jpg')} />
 		</View>
+
 		<View style={styles.forms}>
 			<View>
 				<Text style={styles.textTitle}>Título do hábito</Text>
@@ -35,6 +36,7 @@ export default function NewHabit() {
 					// placeholder="Digite aqui"
 				/>
 			</View>
+
 			<View>
 				<View style={styles.checkbocContainer}>
 					<Text style={styles.textTitle}>Definir uma meta</Text>
@@ -45,38 +47,58 @@ export default function NewHabit() {
 					/>
 				</View>
 				
-				 <View style={styles.container}>
-					{/* Input com ícone integrado */}
-					<View style={styles.inputContainer}>
-						<TextInput
-						style={styles.formGoal}
-						placeholder="Selecione data"
-						value={displayValue}
-						editable={false} 
-						/>
-						<TouchableOpacity 
-						onPress={() => setShowPicker(true)}
-						style={styles.iconCalendar}
-						
-						>
-						<Calendar width={24} height={24} color="gray" />
-						</TouchableOpacity>
-					</View>
-						{/* Date Picker */}
-						{showPicker && (
-							<DateTimePicker
-							value={date}
-							mode="date"
-							display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-							onChange={onChange}
-							locale="pt-BR" 
+				<View style={styles.container}>
+					<View style={styles.goalContainer}>
+						{/* Input com ícone integrado */}
+						<View style={styles.inputContainer}>
+							<TextInput
+							style={styles.formGoal}
+							placeholder="Data"
+							value={displayValue}
+							editable={false} 
 							/>
-						)}
+							<TouchableOpacity 
+							onPress={() => setShowPicker(true)}
+							style={styles.iconCalendar}
+							
+							>
+							<Calendar width={24} height={24} color="gray" />
+							</TouchableOpacity>
+						</View>
+
+							{showPicker && (
+								<DateTimePicker
+								value={date}
+								mode="date"
+								display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+								onChange={onChange}
+								locale="pt-BR" 
+								/>
+							)}
+
+						<View style={styles.inputContainer}>
+							<TextInput
+							style={styles.formGoal}
+							placeholder="Mês"
+							value={displayValue}
+							editable={false} 
+							/>
+							<TouchableOpacity 
+							onPress={() => setShowPicker(true)}
+							style={styles.iconCalendar}
+							
+							>
+							<ChevronDown width={24} height={24} color="gray" />
+							</TouchableOpacity>
+						</View>
 					</View>
 
 				</View>
 
+			</View>
+
 		</View>
+
 	 </SafeAreaProvider>
   );
 }
@@ -134,7 +156,7 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		width: "48%",
+		width: "44%",
 		borderWidth: 1,
 		borderColor: 'white',
 		borderRadius: 10,
@@ -144,6 +166,11 @@ const styles = StyleSheet.create({
 		backgroundColor: "red",
 		width: 0,
 		marginLeft: -30,
+  },
+  goalContainer: {
+	backgroundColor: "red",
+	flexDirection: "row",
+	gap: 20,
   }
 
 });
