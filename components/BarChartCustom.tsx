@@ -28,7 +28,7 @@ const chartWidth = subjects.length * (BAR_WIDTH + GAP);
 
 export default function ScrollableBarChart() {
   return (
-    <View style={styles.container}>
+    <View>
       <ScrollView
         horizontal
         contentContainerStyle={{ paddingHorizontal: 16 }}
@@ -125,8 +125,7 @@ export default function ScrollableBarChart() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-  },
+
   title: {
     fontSize: 18,
     textAlign: "center",
