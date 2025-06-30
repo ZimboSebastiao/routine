@@ -3,24 +3,24 @@ import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import Svg, { Circle, G, Rect, Text } from "react-native-svg";
 
 const screenWidth = Dimensions.get("window").width;
-const chartHeight = 200;
+const chartHeight = 220;
 const barWidth = 38;
 const barSpacing = 45;
 const leftPadding = 35;
 
 const days = [
-  { label: "Jan", date: "22/05", billable: 108},
-  { label: "Fev", date: "23/05", billable: 4},
-  { label: "Mar", date: "24/05", billable: 3},
-  { label: "Abr", date: "25/05", billable: 2},
-  { label: "Mai", date: "26/05", billable: 1},
-  { label: "Jun", date: "27/05", billable: 1},
-  { label: "Jul", date: "28/05", billable: 1 },
-  { label: "Ago", date: "22/05", billable: 108},
-  { label: "Set", date: "23/05", billable: 4},
-  { label: "Out", date: "24/05", billable: 3},
-  { label: "Nov", date: "25/05", billable: 2},
-  { label: "Dez", date: "26/05", billable: 1},
+  { label: "Jan", countDays: 23, billable: 108},
+  { label: "Fev", countDays: 18, billable: 4},
+  { label: "Mar", countDays: 10, billable: 3},
+  { label: "Abr", countDays: 17, billable: 2},
+  { label: "Mai", countDays: 12, billable: 1},
+  { label: "Jun", countDays: 26, billable: 1},
+  { label: "Jul", countDays: 18, billable: 1 },
+  { label: "Ago", countDays: 21, billable: 108},
+  { label: "Set", countDays: 25, billable: 4},
+  { label: "Out", countDays: 23, billable: 3},
+  { label: "Nov", countDays: 20, billable: 2},
+  { label: "Dez", countDays: 28, billable: 1},
 
 
 ];
@@ -47,7 +47,7 @@ export default function BarChartSVGMonthYear() {
         <Svg height={chartHeight + 60} width={chartWidth}>
           <G>
             {/* Linhas horizontais e labels de horas */}
-            {[100, 500, 1000, 7000, 1500].map((h) => (
+            {[100, 400, 2000, 7000, 15000].map((h) => (
               <G key={h}>
                 <Text
                   x={0}
@@ -117,7 +117,7 @@ export default function BarChartSVGMonthYear() {
                       fill="#999"
                       textAnchor="middle"
                     >
-                      {day.date}
+                      {day.countDays}
                     </Text>
                   </G>
                 );
