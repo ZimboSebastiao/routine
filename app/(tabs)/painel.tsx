@@ -1,3 +1,4 @@
+import Overview from '@/components/Overview';
 import { useRouter } from 'expo-router';
 import { Share } from 'lucide-react-native';
 import React from 'react';
@@ -31,6 +32,8 @@ export default function Painel() {
 					</Pressable>
 		
 				</View>
+
+				<Overview />
 		
 	 </SafeAreaProvider>
   );
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
 	backgroundColor: "#F8F2EF",
   },
   titleContainer: {
-	  marginVertical: 60,
+	  marginVertical: 50,
 	  fontSize: 22,
 	  fontWeight: 'bold',
 	  marginLeft: 15,
