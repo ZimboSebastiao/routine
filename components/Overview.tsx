@@ -18,7 +18,7 @@ export default function Overview() {
        buttons={[
           {
             value: 'week',
-            label: 'Weekly',
+            label: 'Semanal',
             style: {
               ...styles.button,
               backgroundColor: value === 'week' ? '#6B1E9C' : '#fff',
@@ -30,7 +30,7 @@ export default function Overview() {
           },
           {
             value: 'month',
-            label: 'Monthly',
+            label: 'Mensal',
             style: {
               ...styles.button,
               backgroundColor: value === 'month' ? '#6B1E9C' : '#fff',
@@ -42,7 +42,7 @@ export default function Overview() {
           },
           {
             value: 'year',
-            label: 'Annual',
+            label: 'Anual',
             style: {
               ...styles.button,
               backgroundColor: value === 'year' ? '#6B1E9C' : '#fff',
