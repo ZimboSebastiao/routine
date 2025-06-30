@@ -34,7 +34,7 @@ export default function Painel() {
 				</View>
 
 				<Overview />
-				{/* <BarChartSVG /> */}
+				
 		
 	 </SafeAreaProvider>
   );
@@ -68,6 +68,4 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: "white",
 	},
-
-
 });

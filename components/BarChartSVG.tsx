@@ -18,7 +18,7 @@ const days = [
   { label: "S", date: "28/05", billable: 1, nonBillable: 0 }
 ];
 
-const maxHours = 18;
+const maxHours = 17;
 const scale = chartHeight / maxHours;
 
 export default function BarChartSVG() {
@@ -28,8 +28,8 @@ export default function BarChartSVG() {
     <View style={styles.container}>
       {/* Legenda */}
       <Svg height={40} width={screenWidth}>
-        <Circle cx={leftPadding} cy={10} r={4} fill="#f17e44" />
-        <Text x={leftPadding + 10} y={14} fontSize="18" fill="#000">
+        <Circle cx={leftPadding + 70} cy={8} r={4} fill="#f17e44" />
+        <Text x={leftPadding + 80} y={14} fontSize="18" fill="#000">
           Progresso e análises
         </Text>
 

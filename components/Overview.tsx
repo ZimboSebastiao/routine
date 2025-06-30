@@ -65,6 +65,7 @@ export default function Overview() {
 					<Text style={styles.totalDays}>Total de Dias</Text>
 					<Text style={styles.days}>7 dias</Text>
 				</View>
+				<View style={styles.horizontalLine} />
 			<BarChartSVG />
 			</View>
 		}
@@ -129,5 +130,11 @@ button: {
 	fontWeight: "bold",
 	padding: 8
   },
+  horizontalLine: {
+		height: 3,
+		width: "100%",
+		backgroundColor: '#f0e8df',
+	}
+
 
 });
