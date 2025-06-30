@@ -126,7 +126,6 @@ export default function ScrollableBarChart() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 30,
   },
   title: {
     fontSize: 18,
