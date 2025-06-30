@@ -1,33 +1,15 @@
+import BarChartCustom from '@/components/BarChartCustom';
 import { useRouter } from 'expo-router';
 import { X } from 'lucide-react-native';
-import React, { useState } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function Insights() {
 	const router = useRouter();
-	const [checked, setChecked] = React.useState(false);
-	const [checked2, setChecked2] = React.useState(false);
-	const [date, setDate] = useState(new Date());
-	const [showPicker, setShowPicker] = useState(false);
-	const [displayValue, setDisplayValue] = useState('');
-	const [diasSelecionados, setDiasSelecionados] = useState<number[]>([]);
-	const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-	const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-
-  	const scaleSize = 1.7;
-	
-	
-	const onChange = (event: any, selectedDate?: Date) => {
-		setShowPicker(Platform.OS === 'ios');
-		if (selectedDate) {
-		setDate(selectedDate);
-		setDisplayValue(selectedDate.toLocaleDateString('pt-BR')); 
-		}
-	};
-
 	
 
+	
   return (
 	 <SafeAreaProvider style={styles.container}>
 		
@@ -55,7 +37,7 @@ export default function Insights() {
 		</View>
 
 		<ScrollView>
-
+			 <BarChartCustom />
 			<View style={styles.saveContainer}>
 				<Pressable
 					style={({ pressed }) => [
