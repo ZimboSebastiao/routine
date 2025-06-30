@@ -4,23 +4,23 @@ import Svg, { Circle, G, Rect, Text } from "react-native-svg";
 
 const screenWidth = Dimensions.get("window").width;
 const chartHeight = 220;
-const barWidth = 38;
+const barWidth = 32;
 const barSpacing = 45;
-const leftPadding = 35;
+const leftPadding = 60;
 
 const days = [
-  { label: "Jan", countDays: 23, billable: 108},
-  { label: "Fev", countDays: 18, billable: 4},
-  { label: "Mar", countDays: 10, billable: 3},
-  { label: "Abr", countDays: 17, billable: 2},
-  { label: "Mai", countDays: 12, billable: 1},
-  { label: "Jun", countDays: 26, billable: 1},
-  { label: "Jul", countDays: 18, billable: 1 },
-  { label: "Ago", countDays: 21, billable: 108},
-  { label: "Set", countDays: 25, billable: 4},
-  { label: "Out", countDays: 23, billable: 3},
-  { label: "Nov", countDays: 20, billable: 2},
-  { label: "Dez", countDays: 28, billable: 1},
+  { label: "Jan", countDays: 23, billable: 808},
+  { label: "Fev", countDays: 18, billable: 564},
+  { label: "Mar", countDays: 10, billable: 323},
+  { label: "Abr", countDays: 17, billable: 562},
+  { label: "Mai", countDays: 12, billable: 571},
+  { label: "Jun", countDays: 26, billable: 461},
+  { label: "Jul", countDays: 18, billable: 751 },
+  { label: "Ago", countDays: 21, billable: 708},
+  { label: "Set", countDays: 25, billable: 496},
+  { label: "Out", countDays: 23, billable: 334},
+  { label: "Nov", countDays: 20, billable: 762},
+  { label: "Dez", countDays: 28, billable: 875},
 
 
 ];
@@ -47,7 +47,7 @@ export default function BarChartSVGMonthYear() {
         <Svg height={chartHeight + 60} width={chartWidth}>
           <G>
             {/* Linhas horizontais e labels de horas */}
-            {[100, 400, 2000, 7000, 15000].map((h) => (
+            {[1, 20, 100, 700, 4000, 17000, 80000].map((h) => (
               <G key={h}>
                 <Text
                   x={0}

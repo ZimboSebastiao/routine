@@ -6,7 +6,7 @@ const screenWidth = Dimensions.get("window").width;
 const chartHeight = 200;
 const barWidth = 38;
 const barSpacing = 45;
-const leftPadding = 35;
+const leftPadding = 42;
 
 const days = [
   { label: "1", date: "22/05", billable: 108},
