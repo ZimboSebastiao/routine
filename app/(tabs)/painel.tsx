@@ -34,6 +34,7 @@ export default function Painel() {
 				</View>
 
 				<Overview />
+				{/* <BarChartSVG /> */}
 		
 	 </SafeAreaProvider>
   );

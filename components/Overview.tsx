@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
+import BarChartSVG from './BarChartSVG';
 
 
 export default function Overview() {
@@ -12,40 +13,64 @@ export default function Overview() {
         value={value}
         onValueChange={setValue}
         style={styles.segmentedContainer}
-        buttons={[
+       buttons={[
           {
             value: 'week',
             label: 'Weekly',
             style: {
               ...styles.button,
-              backgroundColor: value === 'week' ? '#6B1E9C' : '#a47acf',
+              backgroundColor: value === 'week' ? '#6B1E9C' : '#fff',
             },
-            labelStyle: styles.label,
+            labelStyle: {
+              ...styles.label,
+              color: value === 'week' ? '#fff' : '#6B1E9C',
+            },
           },
           {
             value: 'month',
             label: 'Monthly',
             style: {
               ...styles.button,
-              backgroundColor: value === 'month' ? '#6B1E9C' : '#a47acf',
+              backgroundColor: value === 'month' ? '#6B1E9C' : '#fff',
             },
-            labelStyle: styles.label,
+            labelStyle: {
+              ...styles.label,
+              color: value === 'month' ? '#fff' : '#6B1E9C',
+            },
           },
           {
             value: 'year',
             label: 'Annual',
             style: {
               ...styles.button,
-              backgroundColor: value === 'year' ? '#6B1E9C' : '#a47acf',
+              backgroundColor: value === 'year' ? '#6B1E9C' : '#fff',
             },
-            labelStyle: styles.label,
+            labelStyle: {
+              ...styles.label,
+              color: value === 'year' ? '#fff' : '#6B1E9C',
+            },
           },
         ]}
       />
       {/* Conteúdo semanal aqui */}
-      <View>
-        {value === 'week' && <Text>Conteúdo semanal aqui</Text>}
+      <View style={styles.weekContainer}>
+        {value === 'week' && 
+			<View> 
+				<View> 
+					<Text style={styles.totalHours}>Total de Horas</Text>
+					<Text style={styles.hours}>20:43:12</Text>
+				</View>
+
+				<View>
+					<Text style={styles.totalDays}>Total de Dias</Text>
+					<Text style={styles.days}>7 dias</Text>
+				</View>
+			<BarChartSVG />
+			</View>
+		}
       </View>
+
+
       {/* Conteúdo mensal aqui */}
       <View>
         {value === 'month' && <Text>Conteúdo mensal aqui</Text>}
@@ -61,7 +86,7 @@ export default function Overview() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    
   },
   segmentedContainer: {
     margin: 10,
@@ -80,7 +105,29 @@ button: {
 
   },
   label: {
-    color: 'white',
+    color: 'black',
     fontWeight: '600',
   },
+  weekContainer: {
+	margin: 20,
+  },
+  totalHours: {
+	fontSize: 18,
+  },
+  hours: {
+	fontSize: 24,
+	fontWeight: "bold",
+	padding: 8
+  },
+  totalDays: {
+	fontSize: 18,
+	marginTop: 10,
+	paddingTop: 18,
+  },
+  days: {
+	fontSize: 24,
+	fontWeight: "bold",
+	padding: 8
+  },
+
 });
