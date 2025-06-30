@@ -5,7 +5,7 @@ import BarChartSVG from './BarChartSVG';
 
 
 export default function Overview() {
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState('week');
 
   return (
  <SafeAreaView style={styles.container}>
@@ -57,12 +57,12 @@ export default function Overview() {
         {value === 'week' && 
 			<View> 
 				<View> 
-					<Text style={styles.totalHours}>Total de Horas</Text>
+					<Text style={styles.totalHours}>Horas Dedicadas</Text>
 					<Text style={styles.hours}>20:43:12</Text>
 				</View>
 
 				<View>
-					<Text style={styles.totalDays}>Total de Dias</Text>
+					<Text style={styles.totalDays}>Dias ativos</Text>
 					<Text style={styles.days}>7 dias</Text>
 				</View>
 				<View style={styles.horizontalLine} />
@@ -116,9 +116,8 @@ button: {
 	fontSize: 18,
   },
   hours: {
-	fontSize: 24,
+	fontSize: 28,
 	fontWeight: "bold",
-	padding: 8
   },
   totalDays: {
 	fontSize: 18,
@@ -126,12 +125,12 @@ button: {
 	paddingTop: 18,
   },
   days: {
-	fontSize: 24,
+	fontSize: 28,
 	fontWeight: "bold",
-	padding: 8
+	paddingBottom: 15,
   },
   horizontalLine: {
-		height: 3,
+		height: 2.3,
 		width: "100%",
 		backgroundColor: '#f0e8df',
 	}
