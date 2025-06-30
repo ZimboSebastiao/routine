@@ -38,26 +38,40 @@ export default function Insights() {
 
 		<ScrollView>
 			 <BarChartCustom />
-			<View style={styles.saveContainer}>
-				<Pressable
-					style={({ pressed }) => [
-					styles.buttonSave,
-					{
-						transform: [{ scale: pressed ? 0.95 : 1 }],
-						opacity: pressed ? 0.8 : 1,
-					}
-					]}
-				>
-					{({ pressed }) => (
-					<Text style={[
-						styles.textSave,
-						{ color: pressed ? '#f0f0f0' : 'white' }
-					]}>
-						Compartilhar progresso
-					</Text>
-					)}
-				</Pressable>
-			</View>
+
+			 <View style={styles.cardContainer}>
+				<View style={styles.cardGroupText}>
+					<View>
+						<Text style={styles.cardContainerTitle}>Pontos Obtidos</Text>
+						<Text style={styles.cardContainerText}>Nesta semana</Text>
+					</View>
+					<View style={styles.cardPoints}>
+						<Text style={styles.cardNumber}>865</Text>
+						<Text style={styles.cardName}>Pontos</Text>
+					</View>
+				</View>
+				<View style={styles.saveContainer}>
+					<Pressable
+						style={({ pressed }) => [
+						styles.buttonSave,
+						{
+							transform: [{ scale: pressed ? 0.95 : 1 }],
+							opacity: pressed ? 0.8 : 1,
+						}
+						]}
+					>
+						{({ pressed }) => (
+						<Text style={[
+							styles.textSave,
+							{ color: pressed ? '#f0f0f0' : 'white' }
+						]}>
+							Compartilhar progresso
+						</Text>
+						)}
+					</Pressable>
+				</View>
+
+			 </View>
 		</ScrollView>
 
 	 </SafeAreaProvider>
@@ -113,6 +127,41 @@ const styles = StyleSheet.create({
 		color: "white",
 		fontWeight: "bold",
 		textAlign: "center",
+	},
+	cardContainer: {
+		height: "100%",
+		borderTopLeftRadius: 35,
+		borderTopRightRadius: 35,
+		backgroundColor: "white",
+	},
+	cardGroupText: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		padding: 20,
+		marginTop: 35,
+		paddingTop: 0,
+	},
+	cardContainerTitle: {
+		fontSize: 20,
+		fontWeight: "bold",
+	},
+	cardContainerText: {
+		fontSize: 14,
+		color: "gray",
+	},
+	cardNumber: {
+		color: "#A6511E",
+		fontSize: 20,
+		fontWeight: "bold",
+	},
+	cardName: {
+		color: "gray",
+		fontSize: 20,
+	},
+	cardPoints: {
+		flexDirection: "row",
+		gap: 6
 	}
 
 });
