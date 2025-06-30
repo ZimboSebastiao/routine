@@ -50,6 +50,23 @@ export default function Insights() {
 						<Text style={styles.cardName}>Pontos</Text>
 					</View>
 				</View>
+
+				<View style={styles.resumeContainer}>
+					<View>
+						<Text style={styles.resumeTexts}>Hábito</Text>
+						<Text style={styles.resumeDatas}>3</Text>
+					</View>
+					<View style={styles.separator} />
+					<View>
+						<Text style={styles.resumeTexts}>Ritmo</Text>
+						<Text style={styles.resumeDatas}>6 dias</Text>
+					</View>
+					<View style={styles.separator} />
+					<View>
+						<Text style={styles.resumeTexts}>Horas</Text>
+						<Text style={styles.resumeDatas}>7h 30min</Text>
+					</View>
+				</View>
 				<View style={styles.saveContainer}>
 					<Pressable
 						style={({ pressed }) => [
@@ -162,6 +179,25 @@ const styles = StyleSheet.create({
 	cardPoints: {
 		flexDirection: "row",
 		gap: 6
+	},
+	resumeContainer: {
+		padding: 20,
+		flexDirection: "row",
+		justifyContent: "space-between",
+	},
+	separator: {
+		width: 1,
+		height: "100%",
+		backgroundColor: '#ccc',
+	},
+	resumeTexts: {
+		color: "gray",
+		fontSize: 15,
+	},
+	resumeDatas:
+	{
+		fontSize: 18,
+		fontWeight: "bold",
 	}
 
 });
