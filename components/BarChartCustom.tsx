@@ -1,23 +1,22 @@
 import React from "react";
 import {
 	Dimensions,
-	Text as RNText,
 	ScrollView,
 	StyleSheet,
-	View,
+	View
 } from "react-native";
-import Svg, { ClipPath, Defs, G, Rect, Text as SvgText } from "react-native-svg";
+import Svg, { ClipPath, Defs, G, Pattern, Rect, Text as SvgText } from "react-native-svg";
 
 const screenWidth = Dimensions.get("window").width;
-const GRAPH_HEIGHT = 300;
+const GRAPH_HEIGHT = 340;
 const RADIUS = 50;
 const BAR_WIDTH = 90;
 const GAP = 20;
 
 const subjects = [
-  { name: "Matemática", percentage: 48, color: "#4B2E2B" },
+  { name: "Matemática", percentage: 78, color: "#4B2E2B" },
   { name: "Português", percentage: 33, color: "#A6511E" },
-  { name: "Inglês", percentage: 27, color: "#84B94E" },
+  { name: "Inglês", percentage: 57, color: "#84B94E" },
   { name: "Programação", percentage: 40, color: "#E08ED3" },
   { name: "Geografia", percentage: 12, color: "#3BAEDA" },
   { name: "Física", percentage: 25, color: "#FF5733" },
@@ -30,83 +29,96 @@ const chartWidth = subjects.length * (BAR_WIDTH + GAP);
 export default function ScrollableBarChart() {
   return (
     <View style={styles.container}>
-      <RNText style={styles.title}>Desempenho por Matéria</RNText>
-
       <ScrollView
         horizontal
         contentContainerStyle={{ paddingHorizontal: 16 }}
         showsHorizontalScrollIndicator={false}
       >
-        <Svg height={GRAPH_HEIGHT + 60} width={chartWidth}>
-          {subjects.map((subject, index) => {
-            const x = index * (BAR_WIDTH + GAP);
-            const filledHeight = (subject.percentage / 100) * GRAPH_HEIGHT;
-            const emptyHeight = GRAPH_HEIGHT - filledHeight;
+		<Svg height={GRAPH_HEIGHT + 60} width={chartWidth}>
+		<Defs>
+			{/* Padrão listrado para o fundo das barras */}
+			<Pattern
+			id="striped-bg"
+			patternUnits="userSpaceOnUse"
+			width="8"
+			height="8"
+			patternTransform="rotate(45)"
+			>
+			<Rect x="0" y="0" width="10" height="10" fill="#eee" />
+			<Rect x="0" y="0" width="5" height="10" fill="#ddd" />
+			</Pattern>
+		</Defs>
 
-            return (
-              <G key={index}>
-                {/* Clip para borda arredondada */}
-                <Defs>
-                  <ClipPath id={`clip-${index}`}>
-                    <Rect
-                      x={x}
-                      y={0}
-                      rx={RADIUS}
-                      width={BAR_WIDTH}
-                      height={GRAPH_HEIGHT}
-                    />
-                  </ClipPath>
-                </Defs>
+		{subjects.map((subject, index) => {
+			const x = index * (BAR_WIDTH + GAP);
+			const filledHeight = (subject.percentage / 100) * GRAPH_HEIGHT;
+			const emptyHeight = GRAPH_HEIGHT - filledHeight;
 
-                {/* Fundo da barra */}
-                <Rect
-                  x={x}
-                  y={0}
-                  rx={RADIUS}
-                  width={BAR_WIDTH}
-                  height={GRAPH_HEIGHT}
-                  fill="#eee"
-                  clipPath={`url(#clip-${index})`}
-                />
+			return (
+			<G key={index}>
+				<Defs>
+				<ClipPath id={`clip-${index}`}>
+					<Rect
+					x={x}
+					y={0}
+					rx={RADIUS}
+					width={BAR_WIDTH}
+					height={GRAPH_HEIGHT}
+					/>
+				</ClipPath>
+				</Defs>
 
-                {/* Preenchimento proporcional */}
-                <Rect
-                  x={x}
-                  y={emptyHeight}
-                  width={BAR_WIDTH}
-                  height={filledHeight}
-                  fill={subject.color}
-                  clipPath={`url(#clip-${index})`}
-                />
+				{/* Fundo listrado */}
+				<Rect
+				x={x}
+				y={0}
+				rx={RADIUS}
+				width={BAR_WIDTH}
+				height={GRAPH_HEIGHT}
+				fill="url(#striped-bg)"
+				clipPath={`url(#clip-${index})`}
+				/>
 
-                {/* Porcentagem */}
-                {subject.percentage > 0 && (
-                  <SvgText
-                    x={x + BAR_WIDTH / 2}
-                    y={emptyHeight + filledHeight / 2 + 5}
-                    fill="#fff"
-                    fontSize="12"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                  >
-                    {subject.percentage}%
-                  </SvgText>
-                )}
+				{/* Preenchimento proporcional */}
+				<Rect
+				x={x}
+				y={emptyHeight}
+				width={BAR_WIDTH}
+				height={filledHeight}
+				rx={RADIUS}
+				fill={subject.color}
+				clipPath={`url(#clip-${index})`}
+				/>
 
-                {/* Label */}
-                <SvgText
-                  x={x + BAR_WIDTH / 2}
-                  y={GRAPH_HEIGHT + 25}
-                  fontSize="12"
-                  fill="#333"
-                  textAnchor="middle"
-                >
-                  {subject.name}
-                </SvgText>
-              </G>
-            );
-          })}
-        </Svg>
+				{/* Porcentagem */}
+				{subject.percentage > 0 && (
+				<SvgText
+					x={x + BAR_WIDTH / 2}
+					y={emptyHeight + filledHeight / 2 + 5}
+					fill="#fff"
+					fontSize="12"
+					fontWeight="bold"
+					textAnchor="middle"
+				>
+					{subject.percentage}%
+				</SvgText>
+				)}
+
+				{/* Label */}
+				<SvgText
+				x={x + BAR_WIDTH / 2}
+				y={GRAPH_HEIGHT + 25}
+				fontSize="16"
+				fill="#333"
+				textAnchor="middle"
+				>
+				{subject.name}
+				</SvgText>
+			</G>
+			);
+		})}
+		</Svg>
+
       </ScrollView>
     </View>
   );
@@ -115,7 +127,6 @@ export default function ScrollableBarChart() {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 30,
-    backgroundColor: "#FAF5F5",
   },
   title: {
     fontSize: 18,
