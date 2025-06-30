@@ -2,6 +2,7 @@ import * as React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
 import BarChartSVG from './BarChartSVG';
+import BarChartSVGMonth from './BarChartSVGMonth';
 
 
 export default function Overview() {
@@ -73,8 +74,22 @@ export default function Overview() {
 
 
       {/* Conteúdo mensal aqui */}
-      <View>
-        {value === 'month' && <Text>Conteúdo mensal aqui</Text>}
+      <View style={styles.weekContainer}>
+        {value === 'month' && 
+			<View> 
+				<View> 
+					<Text style={styles.totalHours}>Horas Dedicadas</Text>
+					<Text style={styles.hours}>20:43:12</Text>
+				</View>
+
+				<View>
+					<Text style={styles.totalDays}>Dias ativos</Text>
+					<Text style={styles.days}>7 dias</Text>
+				</View>
+				<View style={styles.horizontalLine} />
+			<BarChartSVGMonth />
+			</View>
+		}
       </View>
       {/* Conteúdo anual aqui */}
       <View>
