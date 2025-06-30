@@ -9,44 +9,26 @@ const barSpacing = 45;
 const leftPadding = 35;
 
 const days = [
-  { label: "1", date: "22/05", billable: 108},
-  { label: "2", date: "23/05", billable: 4},
-  { label: "3", date: "24/05", billable: 3},
-  { label: "4", date: "25/05", billable: 2},
-  { label: "5", date: "26/05", billable: 1},
-  { label: "6", date: "27/05", billable: 1},
-  { label: "7", date: "28/05", billable: 1 },
-  { label: "8", date: "22/05", billable: 108},
-  { label: "9", date: "23/05", billable: 4},
-  { label: "10", date: "24/05", billable: 3},
-  { label: "11", date: "25/05", billable: 2},
-  { label: "12", date: "26/05", billable: 1},
-  { label: "13", date: "27/05", billable: 1},
-  { label: "14", date: "28/05", billable: 1 },
-  { label: "15", date: "22/05", billable: 108},
-  { label: "16", date: "23/05", billable: 4},
-  { label: "17", date: "24/05", billable: 3},
-  { label: "18", date: "25/05", billable: 2},
-  { label: "19", date: "26/05", billable: 1},
-  { label: "20", date: "27/05", billable: 1},
-  { label: "21", date: "28/05", billable: 1 },
-  { label: "22", date: "23/05", billable: 4},
-  { label: "23", date: "24/05", billable: 3},
-  { label: "24", date: "25/05", billable: 2},
-  { label: "25", date: "26/05", billable: 1},
-  { label: "26", date: "27/05", billable: 1},
-  { label: "27", date: "28/05", billable: 1 },
-  { label: "28", date: "23/05", billable: 4},
-  { label: "29", date: "24/05", billable: 3},
-  { label: "30", date: "25/05", billable: 2},
-  { label: "31", date: "26/05", billable: 1},
+  { label: "Jan", date: "22/05", billable: 108},
+  { label: "Fev", date: "23/05", billable: 4},
+  { label: "Mar", date: "24/05", billable: 3},
+  { label: "Abr", date: "25/05", billable: 2},
+  { label: "Mai", date: "26/05", billable: 1},
+  { label: "Jun", date: "27/05", billable: 1},
+  { label: "Jul", date: "28/05", billable: 1 },
+  { label: "Ago", date: "22/05", billable: 108},
+  { label: "Set", date: "23/05", billable: 4},
+  { label: "Out", date: "24/05", billable: 3},
+  { label: "Nov", date: "25/05", billable: 2},
+  { label: "Dez", date: "26/05", billable: 1},
+
 
 ];
 
-const maxHours = 1000;
+const maxHours = 90000;
 const logScale = (value: number) => Math.log10(value + 1) * (chartHeight / Math.log10(maxHours + 1));
 
-export default function BarChartSVGMonth() {
+export default function BarChartSVGMonthYear() {
   const chartWidth = leftPadding + days.length * barSpacing;
 
   return (
@@ -65,7 +47,7 @@ export default function BarChartSVGMonth() {
         <Svg height={chartHeight + 60} width={chartWidth}>
           <G>
             {/* Linhas horizontais e labels de horas */}
-            {[1, 10, 50, 200, 900].map((h) => (
+            {[100, 500, 1000, 7000, 1500].map((h) => (
               <G key={h}>
                 <Text
                   x={0}

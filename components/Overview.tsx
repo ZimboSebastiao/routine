@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
 import BarChartSVG from './BarChartSVG';
 import BarChartSVGMonth from './BarChartSVGMonth';
+import BarChartSVGMonthYear from './BarChartSVGYear';
 
 
 export default function Overview() {
@@ -54,47 +55,57 @@ export default function Overview() {
         ]}
       />
       {/* Conteúdo semanal aqui */}
-      <View style={styles.weekContainer}>
         {value === 'week' && 
+      	<View style={styles.weekContainer}>
 			<View> 
-				<View> 
-					<Text style={styles.totalHours}>Horas Dedicadas</Text>
-					<Text style={styles.hours}>20:43:12</Text>
-				</View>
-
-				<View>
-					<Text style={styles.totalDays}>Dias ativos</Text>
-					<Text style={styles.days}>7 dias</Text>
-				</View>
-				<View style={styles.horizontalLine} />
-			<BarChartSVG />
+				<Text style={styles.totalHours}>Horas Dedicadas</Text>
+				<Text style={styles.hours}>20:43:12</Text>
 			</View>
-		}
-      </View>
 
+			<View>
+				<Text style={styles.totalDays}>Dias ativos</Text>
+				<Text style={styles.days}>7 dias</Text>
+			</View>
+			<View style={styles.horizontalLine} />
+		<BarChartSVG />
+		</View>
+		}
 
       {/* Conteúdo mensal aqui */}
-      <View style={styles.weekContainer}>
         {value === 'month' && 
+      	<View style={styles.weekContainer}>
 			<View> 
-				<View> 
-					<Text style={styles.totalHours}>Horas Dedicadas</Text>
-					<Text style={styles.hours}>20:43:12</Text>
-				</View>
-
-				<View>
-					<Text style={styles.totalDays}>Dias ativos</Text>
-					<Text style={styles.days}>7 dias</Text>
-				</View>
-				<View style={styles.horizontalLine} />
-			<BarChartSVGMonth />
+				<Text style={styles.totalHours}>Horas Dedicadas</Text>
+				<Text style={styles.hours}>760:43:12</Text>
 			</View>
+
+			<View>
+				<Text style={styles.totalDays}>Dias ativos</Text>
+				<Text style={styles.days}>24 dias</Text>
+			</View>
+			<View style={styles.horizontalLine} />
+		<BarChartSVGMonth />
+		</View>
 		}
-      </View>
+
       {/* Conteúdo anual aqui */}
-      <View>
-        {value === 'year' && <Text>Conteúdo anual aqui</Text>}
-      </View>
+
+        {value === 'year' && 
+		<View style={styles.weekContainer}> 
+			<View> 
+				<Text style={styles.totalHours}>Horas Dedicadas</Text>
+				<Text style={styles.hours}>760:43:12</Text>
+			</View>
+
+			<View>
+				<Text style={styles.totalDays}>Dias ativos</Text>
+				<Text style={styles.days}>24 dias</Text>
+			</View>
+			<View style={styles.horizontalLine} />
+		<BarChartSVGMonthYear />
+		</View>
+		}
+
     </SafeAreaView>
   );
 };
