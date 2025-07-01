@@ -4,8 +4,9 @@ import { editHabitWithNotifications } from '@/services/habitManager';
 import { Category } from '@/types/category';
 import { getHabits, Habit } from '@/utils/storage';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { X } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
 
 export default function EditHabit() {
@@ -59,6 +60,27 @@ export default function EditHabit() {
 
   return (
     <ScrollView style={styles.container}>
+				<View style={styles.titleIconContainer}>
+					<Text style={styles.titleContainer}>Editar</Text>
+					<Pressable 
+						onPress={() => router.push('/')}
+						style={({ pressed }) => [
+							styles.iconView,
+							{
+								transform: [{ scale: pressed ? 0.95 : 1 }],
+								opacity: pressed ? 0.8 : 1,
+							}
+							]}
+							
+						>
+						{({ pressed }) => (
+							<X 
+							size={34} 
+							color={pressed ? '#A278C6' : '#000000'}
+							/>
+						)}
+					</Pressable>
+				</View>
       <Card style={styles.card}>
         <Card.Content>
           <TextInput
@@ -92,6 +114,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F2EF',
     padding: 16,
   },
+      titleContainer: {
+	  marginVertical: 40,
+	  fontSize: 22,
+	  fontWeight: 'bold',
+	  
+	},
+	titleIconContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+	},
+	iconView: {
+		justifyContent: "center",
+		alignItems: "center",
+		width: 50,
+		height: 50,
+		backgroundColor: "white",
+		borderRadius: 50,
+		borderWidth: 1,
+		borderColor: "white",
+	},
   card: {
     backgroundColor: 'white',
     borderRadius: 12,

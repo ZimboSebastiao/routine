@@ -67,6 +67,7 @@ export default function TabLayout() {
         options={{
           title: 'Editar',
           tabBarIcon: ({ color }) => <UserRound size={28}  color={color} />,
+		  href: null,
         }}
       />
 	  <Tabs.Screen
