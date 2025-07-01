@@ -1,5 +1,5 @@
 import { EmptyHabitsState } from '@/components/EmptyHabitsState';
-import { HabitCard } from '@/components/HabitCard';
+import { HabitCardHome } from '@/components/HabitCardHome';
 import UserAvatar from '@/components/UserAvatar';
 import WeeklyCalendar from "@/components/WeeklyCalendar";
 import { useGreeting } from "@/hooks/useGreeting";
@@ -154,7 +154,7 @@ export default function HomeScreen() {
 			<FlatList
 			data={habits}
 			renderItem={({ item }) => (
-				<HabitCard 
+				<HabitCardHome 
 				habit={item} 
 				onEdit={handleEditHabit}
 				onDelete={handleDeleteHabit}
