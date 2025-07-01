@@ -1,5 +1,7 @@
+import { CategorySelector } from '@/components/CategorySelector';
 import MonthPicker from '@/components/MonthPicker';
 import WeeklyFrequency from '@/components/WeeklyFrequency';
+import { Category } from '@/types/category';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useRouter } from 'expo-router';
 import { Calendar, X } from 'lucide-react-native';
@@ -7,6 +9,8 @@ import React, { useState } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Avatar, Checkbox, Switch } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+
 
 export default function NewHabit() {
 	const router = useRouter();
@@ -18,6 +22,7 @@ export default function NewHabit() {
 	const [diasSelecionados, setDiasSelecionados] = useState<number[]>([]);
 	const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 	const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+	const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
   	const scaleSize = 1.7;
 	
@@ -61,6 +66,8 @@ export default function NewHabit() {
 		<View style={styles.avatarContainer}>
 			<Avatar.Image size={180} source={require('@/assets/images/flow.jpg')} />
 		</View>
+
+
 		<ScrollView>
 		<View style={styles.forms}>
 			<View>
@@ -112,7 +119,13 @@ export default function NewHabit() {
 							)}
 
 						<MonthPicker />
+
 					</View>
+					<CategorySelector 
+						selectedCategory={selectedCategory}
+						onSelectCategory={setSelectedCategory}
+					/>
+
 
 				</View>
 
