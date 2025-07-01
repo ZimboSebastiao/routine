@@ -54,6 +54,20 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <UserRound size={28}  color={color} />,
         }}
       />
+	  	  <Tabs.Screen
+        name="habitslist"
+        options={{
+          title: 'Teste',
+          tabBarIcon: ({ color }) => <UserRound size={28}  color={color} />,
+        }}
+      />
+	<Tabs.Screen
+        name="edithabit"
+        options={{
+          title: 'Editar',
+          tabBarIcon: ({ color }) => <UserRound size={28}  color={color} />,
+        }}
+      />
 	  <Tabs.Screen
         name="newhabit"
         options={{

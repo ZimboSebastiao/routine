@@ -52,45 +52,63 @@ export default function NewHabit() {
     }
   };
 
-  const handleSaveHabit = async () => {
-    if (!validateForm()) return;
+	const resetForm = () => {
+		setChecked(false);
+		setChecked2(false);
+		setDate(new Date());
+		setDisplayValue('');
+		setDiasSelecionados([]);
+		setIsSwitchOn(false);
+		setSelectedCategory(null);
+		setSelectedQuantity(undefined);
+		setHabitTitle('');
+		setErrors({});
+		};
+	const handleSaveHabit = async () => {
+	if (!validateForm()) return;
 
-    try {
-      // Verifica permissões para notificações
-      if (isSwitchOn) {
-        const hasPermission = await requestNotificationPermissions();
-        if (!hasPermission) {
-          Alert.alert('Permissão necessária', 'Permissão para notificações é necessária para receber lembretes');
-          return;
-        }
-      }
+	try {
+		// Verifica permissões para notificações
+		if (isSwitchOn) {
+		const hasPermission = await requestNotificationPermissions();
+		if (!hasPermission) {
+			Alert.alert('Permissão necessária', 'Permissão para notificações é necessária para receber lembretes');
+			return;
+		}
+		}
 
-      const newHabit = {
-        title: habitTitle,
-        hasGoal: checked,
-        endDate: checked ? date.toISOString() : undefined,
-        monthsGoal: checked2 ? selectedQuantity : undefined,
-        category: selectedCategory!,
-        frequency: {
-          hasFrequency: checked2,
-          selectedDays: diasSelecionados,
-        },
-        hasReminder: isSwitchOn,
-        reminderTime: isSwitchOn ? '08:00' : undefined,
-      };
+		const newHabit = {
+		title: habitTitle,
+		hasGoal: checked,
+		endDate: checked ? date.toISOString() : undefined,
+		monthsGoal: checked2 ? selectedQuantity : undefined,
+		category: selectedCategory!,
+		frequency: {
+			hasFrequency: checked2,
+			selectedDays: diasSelecionados,
+		},
+		hasReminder: isSwitchOn,
+		reminderTime: isSwitchOn ? '08:00' : undefined,
+		};
 
-      const savedHabit = await saveHabit(newHabit);
-      
-      if (isSwitchOn) {
-        await scheduleHabitReminders(savedHabit);
-      }
+		const savedHabit = await saveHabit(newHabit);
+		
+		if (isSwitchOn) {
+		await scheduleHabitReminders(savedHabit);
+		}
 
-      router.push('/');
-    } catch (error) {
-      console.error('Error saving habit:', error);
-      Alert.alert('Erro', 'Ocorreu um erro ao salvar o hábito');
-    }
-  };
+		// Resetar o formulário após salvar
+		resetForm();
+		
+		// Mostrar mensagem de sucesso e redirecionar
+		Alert.alert('Sucesso', 'Hábito criado com sucesso!', [
+		{ text: 'OK', onPress: () => router.push('/') }
+		]);
+		
+	} catch (error) {
+		console.error('Error saving habit:', error);
+		Alert.alert('Erro', 'Ocorreu um erro ao salvar o hábito');
+	}};
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};

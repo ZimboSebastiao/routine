@@ -21,13 +21,10 @@ export const useCurrentTime = (comSegundos: boolean = true): string => {
       setCurrentTime(horaFormatada);
     };
 
-    // Atualiza imediatamente
     atualizarHora();
 
-    // Configura o intervalo de atualização (1 segundo)
     const intervalo = setInterval(atualizarHora, 1000);
 
-    // Limpa o intervalo ao desmontar
     return () => clearInterval(intervalo);
   }, [comSegundos]);
 

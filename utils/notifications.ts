@@ -1,7 +1,7 @@
 import * as Notifications from 'expo-notifications';
 import { Habit } from './storage';
 
-// Configuração inicial das notificações
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,

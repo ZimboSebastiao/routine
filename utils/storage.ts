@@ -1,4 +1,3 @@
-// utils/storage.ts
 import { Category } from '@/types/category';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -20,6 +19,10 @@ export interface Habit {
   createdAt: string;
 }
 
+const saveAllHabits = async (habits: Habit[]) => {
+  await AsyncStorage.setItem(HABITS_KEY, JSON.stringify(habits));
+};
+
 export const saveHabit = async (habit: Omit<Habit, 'id' | 'createdAt'>): Promise<Habit> => {
   try {
     const newHabit: Habit = {
@@ -31,7 +34,7 @@ export const saveHabit = async (habit: Omit<Habit, 'id' | 'createdAt'>): Promise
     const existingHabits = await getHabits();
     const updatedHabits = [...existingHabits, newHabit];
     
-    await AsyncStorage.setItem(HABITS_KEY, JSON.stringify(updatedHabits));
+    await saveAllHabits(updatedHabits);
     return newHabit;
   } catch (error) {
     console.error('Error saving habit:', error);
@@ -46,6 +49,37 @@ export const getHabits = async (): Promise<Habit[]> => {
   } catch (error) {
     console.error('Error getting habits:', error);
     return [];
+  }
+};
+
+export const updateHabit = async (id: string, habitData: Partial<Habit>): Promise<Habit | null> => {
+  try {
+    const habits = await getHabits();
+    const index = habits.findIndex(h => h.id === id);
+    
+    if (index === -1) return null;
+    
+    const updatedHabit = { ...habits[index], ...habitData };
+    const updatedHabits = [...habits];
+    updatedHabits[index] = updatedHabit;
+    
+    await saveAllHabits(updatedHabits);
+    return updatedHabit;
+  } catch (error) {
+    console.error('Error updating habit:', error);
+    throw error;
+  }
+};
+
+export const deleteHabitPermanently = async (id: string): Promise<boolean> => {
+  try {
+    const habits = await getHabits();
+    const updatedHabits = habits.filter(habit => habit.id !== id);
+    await saveAllHabits(updatedHabits);
+    return true;
+  } catch (error) {
+    console.error('Error deleting habit:', error);
+    throw error;
   }
 };
 
