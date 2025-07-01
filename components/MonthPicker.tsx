@@ -1,39 +1,47 @@
-import { mesesCompletos } from '@/utils/months';
 import React, { useState } from 'react';
 import { FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { ChevronDown } from 'react-native-feather'; // ou outro ícone
+import { ChevronDown } from 'react-native-feather';
 
 const MonthPicker = () => {
-  const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
+  const [selectedQuantity, setSelectedQuantity] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const handleSelectMonth = (index: number) => {
-    setSelectedMonth(index);
+  // Array de 1 a 12 meses
+  const monthQuantities = Array.from({ length: 12 }, (_, i) => i + 1);
+
+  const handleSelectQuantity = (quantity: number) => {
+    setSelectedQuantity(quantity);
     setShowModal(false);
   };
 
+  const getDisplayText = () => {
+    if (selectedQuantity === null) return '';
+    return selectedQuantity === 1 
+      ? '1 mês' 
+      : `${selectedQuantity} meses`;
+  };
+
   return (
-    <View >
-      {/* Input que mostra o mês selecionado */}
-	  <View style={styles.goalContainer}>
+    <View>
+      {/* Input que mostra a quantidade selecionada */}
+      <View style={styles.goalContainer}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.formGoal}
+            placeholder="Mês"
+            value={getDisplayText()}
+            editable={false}
+          />
+          <TouchableOpacity 
+            onPress={() => setShowModal(true)}
+            style={styles.iconCalendar}
+          >
+            <ChevronDown width={24} height={24} color="gray" />
+          </TouchableOpacity>
+        </View>
+      </View>
 
-		<View style={styles.inputContainer}>
-			<TextInput
-			style={styles.formGoal}
-			placeholder="Mês"
-			value={selectedMonth !== null ? mesesCompletos[selectedMonth] : ''}
-			editable={false}
-			/>
-			<TouchableOpacity 
-			onPress={() => setShowModal(true)}
-			style={styles.iconCalendar}
-			>
-			<ChevronDown width={24} height={24} color="gray" />
-			</TouchableOpacity>
-		</View>
-	  </View>
-
-      {/* Modal com a lista de meses */}
+      {/* Modal com a lista de quantidades */}
       <Modal
         visible={showModal}
         transparent={true}
@@ -46,15 +54,17 @@ const MonthPicker = () => {
 
         <View style={styles.modalContent}>
           <FlatList
-            data={mesesCompletos}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => (
+            data={monthQuantities}
+            keyExtractor={(item) => item.toString()}
+            renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.monthItem}
-                onPress={() => handleSelectMonth(index)}
+                onPress={() => handleSelectQuantity(item)}
               >
-                <Text style={styles.monthText}>{item}</Text>
-                {selectedMonth === index && (
+                <Text style={styles.monthText}>
+                  {item === 1 ? '1 mês' : `${item} meses`}
+                </Text>
+                {selectedQuantity === item && (
                   <Text style={styles.selectedIndicator}>✓</Text>
                 )}
               </TouchableOpacity>
@@ -98,31 +108,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   inputContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		width: "71%",
-		borderRadius: 10,
-		backgroundColor: '#FFF',
-	},
-	iconCalendar: {
-			width: 0,
-			marginLeft: -30,
-	},
-	formGoal: {
-		width: "100%",
-		height: 60,
-		backgroundColor: 'white',
-		fontSize: 18,
-		color: '#333',
-		marginVertical: 12,
-		borderRadius: 10,
-	},
-	goalContainer: {
-		height: 30,
-		flexDirection: "row",
-		gap: 20,
-	}
-
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: "71%",
+    borderRadius: 10,
+    backgroundColor: '#FFF',
+  },
+  iconCalendar: {
+    width: 0,
+    marginLeft: -30,
+  },
+  formGoal: {
+    width: "100%",
+    height: 60,
+    backgroundColor: 'white',
+    fontSize: 18,
+    color: '#333',
+    marginVertical: 12,
+    borderRadius: 10,
+  },
+  goalContainer: {
+    height: 30,
+    flexDirection: "row",
+    gap: 20,
+  }
 });
 
 export default MonthPicker;
