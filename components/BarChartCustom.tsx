@@ -8,7 +8,7 @@ import {
 import Svg, { ClipPath, Defs, G, Pattern, Rect, Text as SvgText } from "react-native-svg";
 
 const screenWidth = Dimensions.get("window").width;
-const GRAPH_HEIGHT = 340;
+const GRAPH_HEIGHT = 310;
 const RADIUS = 50;
 const BAR_WIDTH = 90;
 const GAP = 20;
