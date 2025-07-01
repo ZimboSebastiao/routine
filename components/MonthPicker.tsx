@@ -6,7 +6,6 @@ const MonthPicker = () => {
   const [selectedQuantity, setSelectedQuantity] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  // Array de 1 a 12 meses
   const monthQuantities = Array.from({ length: 12 }, (_, i) => i + 1);
 
   const handleSelectQuantity = (quantity: number) => {
@@ -23,7 +22,6 @@ const MonthPicker = () => {
 
   return (
     <View>
-      {/* Input que mostra a quantidade selecionada */}
       <View style={styles.goalContainer}>
         <View style={styles.inputContainer}>
           <TextInput
@@ -41,7 +39,6 @@ const MonthPicker = () => {
         </View>
       </View>
 
-      {/* Modal com a lista de quantidades */}
       <Modal
         visible={showModal}
         transparent={true}

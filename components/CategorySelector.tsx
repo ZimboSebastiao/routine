@@ -27,7 +27,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         onPress={() => setShowModal(true)}
       >
         <Text style={styles.selectedCategoryText}>
-          {selectedCategory?.name || 'Selecione uma categoria'}
+          {selectedCategory?.name || 'Categoria'}
         </Text>
         <ChevronDown width={24} height={24} color="gray" />
       </TouchableOpacity>
@@ -86,13 +86,13 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+	width: "94%",
     justifyContent: 'space-between',
     padding: 16,
     borderRadius: 10,
     backgroundColor: '#FFF',
-    borderWidth: 1,
-    borderColor: '#EEE',
-    marginVertical: 8,
+    marginVertical: 18,
+	marginBottom: 0
   },
   selectedCategoryText: {
     fontSize: 16,

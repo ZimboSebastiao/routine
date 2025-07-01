@@ -64,7 +64,7 @@ export default function NewHabit() {
 		</View>
 
 		<View style={styles.avatarContainer}>
-			<Avatar.Image size={180} source={require('@/assets/images/flow.jpg')} />
+			<Avatar.Image size={160} source={require('@/assets/images/flow.jpg')} />
 		</View>
 
 
@@ -91,7 +91,6 @@ export default function NewHabit() {
 				
 				<View style={styles.container}>
 					<View style={styles.goalContainer}>
-						{/* Input com ícone integrado */}
 						<View style={styles.inputContainer}>
 							<TextInput
 							style={styles.formGoal}
@@ -121,13 +120,20 @@ export default function NewHabit() {
 						<MonthPicker />
 
 					</View>
-					<CategorySelector 
-						selectedCategory={selectedCategory}
-						onSelectCategory={setSelectedCategory}
-					/>
+
 
 
 				</View>
+
+			</View>
+
+			<View style={styles.categContainer}>
+				<Text style={styles.textTitle}>Selecione a categoria</Text>
+				<CategorySelector 
+					selectedCategory={selectedCategory}
+					onSelectCategory={setSelectedCategory}
+				/>
+
 
 			</View>
 
@@ -298,6 +304,8 @@ const styles = StyleSheet.create({
 		color: "white",
 		fontWeight: "bold",
 		textAlign: "center",
-	}
-
+	},
+	categContainer: {
+		marginTop: 35,
+	},
 });
