@@ -57,7 +57,7 @@ export default function TabLayout() {
 	  	  <Tabs.Screen
         name="habitslist"
         options={{
-          title: 'Teste',
+          title: 'Hábitos',
           tabBarIcon: ({ color }) => <UserRound size={28}  color={color} />,
         }}
       />
