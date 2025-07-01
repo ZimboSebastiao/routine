@@ -1,8 +1,5 @@
-// utils/categoryUtils.ts
 import { Category } from '@/types/category';
-// import { ImageSourcePropType } from 'expo-image';
 
-// Defina os requires das imagens
 const imageSources = {
   finance: require('@/assets/images/finance.jpg'),
   wellness: require('@/assets/images/wellness.jpg'),

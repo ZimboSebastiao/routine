@@ -22,7 +22,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
 
   return (
     <View>
-      {/* Input que mostra a categoria selecionada */}
       <TouchableOpacity 
         style={styles.inputContainer}
         onPress={() => setShowModal(true)}
@@ -33,7 +32,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         <ChevronDown width={24} height={24} color="gray" />
       </TouchableOpacity>
 
-      {/* Modal com a lista de categorias */}
       <Modal
         visible={showModal}
         transparent={true}
