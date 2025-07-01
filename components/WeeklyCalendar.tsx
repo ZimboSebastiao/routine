@@ -16,7 +16,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
   const currentYear = currentDate.getFullYear();
   const currentWeekday = currentDate.getDay();
 
-  // Gera a semana atual
+  // semana atual
   const startOfWeek = new Date(currentDate);
   startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
 
