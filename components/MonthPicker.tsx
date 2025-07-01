@@ -2,23 +2,28 @@ import React, { useState } from 'react';
 import { FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { ChevronDown } from 'react-native-feather';
 
-const MonthPicker = () => {
-  const [selectedQuantity, setSelectedQuantity] = useState<number | null>(null);
-  const [showModal, setShowModal] = useState(false);
+interface MonthPickerProps {
+  selectedQuantity: number | undefined;
+  onSelectQuantity: (quantity: number) => void;
+}
 
+const MonthPicker: React.FC<MonthPickerProps> = ({ selectedQuantity, onSelectQuantity }) => {
+  const [showModal, setShowModal] = useState(false);
   const monthQuantities = Array.from({ length: 12 }, (_, i) => i + 1);
 
   const handleSelectQuantity = (quantity: number) => {
-    setSelectedQuantity(quantity);
+    onSelectQuantity(quantity);
     setShowModal(false);
   };
 
   const getDisplayText = () => {
-    if (selectedQuantity === null) return '';
+    if (selectedQuantity === undefined) return '';
     return selectedQuantity === 1 
       ? '1 mês' 
       : `${selectedQuantity} meses`;
   };
+
+  
 
   return (
     <View>

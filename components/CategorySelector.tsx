@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#FFF',
     marginVertical: 18,
-	marginBottom: 0
+	marginBottom: 15
   },
   selectedCategoryText: {
     fontSize: 16,
