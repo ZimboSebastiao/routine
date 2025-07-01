@@ -3,8 +3,8 @@ import { EmptyHabitsState } from '@/components/EmptyHabitsState';
 import { HabitCard } from '@/components/HabitCard';
 import { deleteHabitCompletely } from '@/services/habitManager';
 import { getHabits, Habit } from '@/utils/storage';
-import { Feather } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
+import { X } from 'lucide-react-native';
 import React, { useCallback, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -52,12 +52,28 @@ export default function HabitsList() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Meus Hábitos</Text>
-        <Pressable onPress={handleAddHabit} style={styles.addButton}>
-          <Feather name="plus" size={24} color="white" />
-        </Pressable>
-      </View>
+      	<View style={styles.titleIconContainer}>
+			<Text style={styles.titleContainer}>Hábitos</Text>
+			<Pressable 
+				onPress={() => router.push('/')}
+				style={({ pressed }) => [
+					styles.iconView,
+					{
+						transform: [{ scale: pressed ? 0.95 : 1 }],
+						opacity: pressed ? 0.8 : 1,
+					}
+					]}
+					
+				>
+				{({ pressed }) => (
+					<X 
+					size={34} 
+					color={pressed ? '#A278C6' : '#000000'}
+					/>
+				)}
+			</Pressable>
+
+		</View>
 
       {habits.length === 0 ? (
         <EmptyHabitsState onAddHabit={handleAddHabit} />
@@ -85,6 +101,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F2EF',
     padding: 16,
   },
+    titleContainer: {
+	  marginVertical: 40,
+	  fontSize: 22,
+	  fontWeight: 'bold',
+	  
+	},
+	titleIconContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+	},
+	iconView: {
+		justifyContent: "center",
+		alignItems: "center",
+		width: 50,
+		height: 50,
+		backgroundColor: "white",
+		borderRadius: 50,
+		borderWidth: 1,
+		borderColor: "white",
+	},
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',

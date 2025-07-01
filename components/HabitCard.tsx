@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: 'white',
     borderRadius: 20,
+	borderWidth: 1,
+	borderColor: "white",
+
   },
   habitHeader: {
     flexDirection: 'row',
