@@ -1,9 +1,10 @@
 import { getCategoryById } from '@/utils/categoryUtils';
 import { Habit } from '@/utils/storage';
 import { Feather } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { Play } from 'lucide-react-native';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Card } from 'react-native-paper';
 
 interface HabitCardProps {
@@ -13,45 +14,55 @@ interface HabitCardProps {
 }
 
 export const HabitCardHome = ({ habit, onEdit, onDelete }: HabitCardProps) => {
-  const category = getCategoryById(habit.category.id);
-  
-  return (
-    <Card style={styles.habitCard}>
-      <Card.Content>
-        <View style={styles.habitHeader}>
-          <View style={styles.habitTitleContainer}>
-            {category?.icon && (
-              <Image 
-                source={category.icon} 
-                style={styles.categoryIcon}
-                resizeMode="contain"
-              />
-            )}
-            <Text style={styles.habitTitle}>{habit.title}</Text>
-          </View>
-          <View style={styles.habitActions}>
-            <Play 
-			color={"#FF7617"}
-              size={23}
-              
-            />
-          </View>
-        </View>
-        
-        <View style={styles.habitInfo}>
+	const router = useRouter();
+  	const category = getCategoryById(habit.category.id);
 
-          
-          {habit.hasReminder && (
-            <View style={styles.detailRow}>
-              <Feather name="bell" size={16} color="#666" />
-              <Text style={styles.habitDetail}>
-                Lembretes: {habit.reminderTime} nos dias selecionados
-              </Text>
-            </View>
-          )}
-        </View>
-      </Card.Content>
-    </Card>
+	const handlePress = () => {
+	router.push({
+		pathname: '/(tabs)/tasks',
+		params: { habitId: habit.id } 
+	});
+	};
+
+  return (
+	 <Pressable onPress={handlePress}>
+		<Card style={styles.habitCard}>
+			<Card.Content>
+				<View style={styles.habitHeader}>
+				<View style={styles.habitTitleContainer}>
+					{category?.icon && (
+					<Image 
+						source={category.icon} 
+						style={styles.categoryIcon}
+						resizeMode="contain"
+					/>
+					)}
+					<Text style={styles.habitTitle}>{habit.title}</Text>
+				</View>
+				<View style={styles.habitActions}>
+					<Play 
+					color={"#FF7617"}
+					size={23}
+					
+					/>
+				</View>
+				</View>
+				
+				<View style={styles.habitInfo}>
+
+				
+				{habit.hasReminder && (
+					<View style={styles.detailRow}>
+					<Feather name="bell" size={16} color="#666" />
+					<Text style={styles.habitDetail}>
+						Lembretes: {habit.reminderTime} nos dias selecionados
+					</Text>
+					</View>
+				)}
+				</View>
+			</Card.Content>
+		</Card>
+	 </Pressable>
   );
 };
 

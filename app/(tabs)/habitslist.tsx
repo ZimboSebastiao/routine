@@ -1,4 +1,3 @@
-// app/habits/index.tsx
 import { EmptyHabitsState } from '@/components/EmptyHabitsState';
 import { HabitCard } from '@/components/HabitCard';
 import { deleteHabitCompletely } from '@/services/habitManager';
