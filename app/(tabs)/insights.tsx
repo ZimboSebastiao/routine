@@ -1,12 +1,27 @@
 import BarChartCustom from '@/components/BarChartCustom';
+import { getCurrentWeekInfo, getUserPoints } from '@/utils/pointsSystem';
 import { useRouter } from 'expo-router';
 import { X } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import tasks from './tasks';
 
 export default function Insights() {
 	const router = useRouter();
+	const [weeklyPoints, setWeeklyPoints] = useState(0);
+	const [daysRemaining, setDaysRemaining] = useState(7);
+
+	useEffect(() => {
+	const loadPoints = async () => {
+		const points = await getUserPoints();
+		const weekInfo = await getCurrentWeekInfo();
+		setWeeklyPoints(points);
+		setDaysRemaining(weekInfo.daysRemaining);
+	};
+	
+	loadPoints();
+	}, [tasks]);
 	
 
 	
@@ -46,7 +61,7 @@ export default function Insights() {
 						<Text style={styles.cardContainerText}>Nesta semana</Text>
 					</View>
 					<View style={styles.cardPoints}>
-						<Text style={styles.cardNumber}>865</Text>
+						<Text style={styles.cardNumber}>{weeklyPoints}</Text>
 						<Text style={styles.cardName}>Pontos</Text>
 					</View>
 				</View>
@@ -58,8 +73,8 @@ export default function Insights() {
 					</View>
 					<View style={styles.separator} />
 					<View>
-						<Text style={styles.resumeTexts}>Ritmo</Text>
-						<Text style={styles.resumeDatas}>6 dias</Text>
+						<Text style={styles.resumeTexts}>Restando</Text>
+						<Text style={styles.resumeDatas}>{daysRemaining}</Text>
 					</View>
 					<View style={styles.separator} />
 					<View>

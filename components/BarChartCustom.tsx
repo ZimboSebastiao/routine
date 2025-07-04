@@ -22,6 +22,7 @@ const subjects = [
 const chartWidth = subjects.length * (BAR_WIDTH + GAP);
 
 export default function ScrollableBarChart() {
+	
   return (
     <View>
       <ScrollView
