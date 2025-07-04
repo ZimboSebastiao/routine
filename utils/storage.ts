@@ -6,6 +6,7 @@ const HABITS_KEY = '@habits';
 const TASKS_KEY = '@tasks';
 
 export interface Habit {
+  color: string;
   id: string;
   title: string;
   hasGoal: boolean;
