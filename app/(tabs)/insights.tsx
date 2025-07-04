@@ -119,8 +119,8 @@ export default function Insights() {
 
 		</View>
 
-			 <View style={styles.shareContainer} ref={shareViewRef} collapsable={false}>
 		<ScrollView>
+			 <View style={styles.shareContainer} ref={shareViewRef} collapsable={false}>
 			 <BarChartCustom />
 
 			 <View style={styles.cardContainer}>
@@ -175,8 +175,8 @@ export default function Insights() {
 				</View>
 				)}
 			 </View>
-		</ScrollView>
 			</View>
+		</ScrollView>
 
 	 </SafeAreaProvider>
   );
