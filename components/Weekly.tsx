@@ -247,16 +247,15 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   currentDay: {
-    backgroundColor: '#FFEEE0',
     borderWidth: 1,
-    borderColor: '#FF7617',
+    borderColor: 'black',
   },
   currentDayText: {
-    color: '#FF7617',
+    color: 'black',
     fontWeight: 'bold',
   },
   selectedDay: {
-    backgroundColor: '#FF7617',
+    backgroundColor: 'black',
   },
   selectedDayText: {
     color: '#fff',
