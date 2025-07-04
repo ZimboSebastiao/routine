@@ -50,7 +50,7 @@ export default function ScrollableBarChart() {
         return {
           name: habit.title,
           totalHours,
-          percentage: Math.min(Math.round((totalHours / 1) * 100), 100), // 1h = 100%
+          percentage: Math.min(Math.round((totalHours / 10) * 100), 100), 
           color: habit.color || getRandomColor()
         };
       });
