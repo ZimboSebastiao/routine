@@ -205,12 +205,21 @@ const styles = StyleSheet.create({
   },
   startButton: {
     backgroundColor: '#4CAF50',
+	borderWidth: 1.4,
+	borderColor: "#4CAF50",
+	elevation: 3,
   },
   pauseButton: {
     backgroundColor: '#FFC107',
+	borderWidth: 1.4,
+	borderColor: "#FFC107",
+	elevation: 3,
   },
   finishButton: {
     backgroundColor: '#F44336',
+	borderWidth: 1.4,
+	borderColor: "#F44336",
+	elevation: 3,
   },
   disabledButton: {
     opacity: 0.6,

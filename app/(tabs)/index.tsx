@@ -90,8 +90,8 @@ export default function HomeScreen() {
 			<View>
 				<View style={styles.imageContainer}>
 					<View>
-						<Text style={styles.effectText}>Nunca perca sua rotina matinal!</Text>
-						<Text style={styles.effectText}>Receba um aviso e fique no ritmo.</Text>
+						<Text style={styles.effectText}>Cada tarefa concluída conta!</Text>
+						<Text style={styles.effectText}>Veja como você está evoluindo.</Text>
 					</View>
 
 					<View>
