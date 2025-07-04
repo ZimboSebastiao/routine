@@ -84,16 +84,40 @@ export const getUserPoints = async (): Promise<number> => {
 
 export const getCurrentWeekInfo = async () => {
   const weekStart = await getWeekStartDate();
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekEnd.getDate() + 7);
+  const now = new Date(); 
   
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekEnd.getDate() + 6); 
+  weekEnd.setHours(23, 59, 59, 999); 
+
+  if (now > weekEnd) {
+    const newWeekStart = new Date(now);
+    newWeekStart.setDate(newWeekStart.getDate() - newWeekStart.getDay()); 
+    newWeekStart.setHours(0, 0, 0, 0);
+    
+    await AsyncStorage.setItem(WEEK_START_KEY, newWeekStart.toISOString());
+    await AsyncStorage.setItem(POINTS_KEY, '0');
+    
+    const newWeekEnd = new Date(newWeekStart);
+    newWeekEnd.setDate(newWeekEnd.getDate() + 6); 
+    newWeekEnd.setHours(23, 59, 59, 999);
+
+    return {
+      weekStart: newWeekStart,
+      weekEnd: newWeekEnd,
+      daysRemaining: 7 
+    };
+  }
+
+  const today = now.getDay(); 
+  let daysRemaining = 6 - today; 
+
   return {
     weekStart,
     weekEnd,
-    daysRemaining: Math.ceil((weekEnd.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+    daysRemaining
   };
 };
-
 
 export const getPointsHistory = async () => {
   try {
