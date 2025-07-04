@@ -1,8 +1,10 @@
+import { recordTaskPoints } from '@/utils/pointsSystem';
 import { getTasks, updateTask } from '@/utils/storage';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
+	Alert,
 	Pressable,
 	StyleSheet,
 	Text,
@@ -76,6 +78,7 @@ export default function TimerScreen() {
     }
   };
 
+
 	const handleFinish = async () => {
 	try {
 		setIsFinishing(true);
@@ -91,32 +94,36 @@ export default function TimerScreen() {
 		const now = new Date();
 		const startTime = currentTask?.startTime || new Date(now.getTime() - finalSeconds * 1000).toISOString();
 
-		console.log('Finishing task:', {
-		taskId,
-		finalSeconds,
-		startTime,
-		endTime: now.toISOString()
-		});
-
-		await updateTask(taskId as string, {
+		const updatedTask = await updateTask(taskId as string, {
 		timeSpent: finalSeconds,
 		completed: true,
 		startTime: startTime,
 		endTime: now.toISOString()
 		});
 
-		setTimeout(() => {
-		router.replace({
-			pathname: '/(tabs)/tasks',
-			params: { habitId: taskId, refreshed: Date.now() }
-		});
-		}, 300);
-	} catch (error) {
-		console.error('Error finishing timer:', error);
-		setIsFinishing(false);
-		setIsTaskCompleted(false);
-	}
-	};
+		if (updatedTask) {
+		const pointsEarned = await recordTaskPoints(updatedTask);
+		console.log(`Pontos ganhos: ${pointsEarned}`);
+		
+		Alert.alert(
+			'Tarefa concluída!',
+			`Você ganhou ${pointsEarned} pontos!`,
+			[{ text: 'OK' }]
+		);
+		}
+
+    setTimeout(() => {
+      router.replace({
+        pathname: '/(tabs)/tasks',
+        params: { habitId: taskId, refreshed: Date.now() }
+      });
+    }, 300);
+  } catch (error) {
+    console.error('Error finishing timer:', error);
+    setIsFinishing(false);
+    setIsTaskCompleted(false);
+  }
+};
 
   const formatTime = (totalSeconds: number): string => {
     const hours = Math.floor(totalSeconds / 3600);
