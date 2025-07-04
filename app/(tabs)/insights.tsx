@@ -2,12 +2,18 @@ import BarChartCustom from '@/components/BarChartCustom';
 import { getHabitsCount } from '@/utils/habitsCounter';
 import { getCurrentWeekInfo, getUserPoints } from '@/utils/pointsSystem';
 import { getWeeklyTime, updateWeeklyTimeFromTasks } from '@/utils/weeklyTimeTracker';
+import * as FileSystem from 'expo-file-system';
 import { useRouter } from 'expo-router';
+import * as Sharing from 'expo-sharing';
 import { X } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { captureRef } from 'react-native-view-shot';
 import tasks from './tasks';
+
+
+
 
 export default function Insights() {
 	const router = useRouter();
@@ -15,11 +21,40 @@ export default function Insights() {
 	const [daysRemaining, setDaysRemaining] = useState(7);
 	const [weeklyTime, setWeeklyTime] = useState(0);
 	const [habitsCount, setHabitsCount] = useState(0);
+	const shareViewRef = useRef<View>(null);
+	const [isSharing, setIsSharing] = useState(false);
+
+
+	const onShareProgress = async () => {
+	try {
+		setIsSharing(true); 
+		await new Promise(resolve => setTimeout(resolve, 100)); 
+
+		if (shareViewRef.current) {
+		const uri = await captureRef(shareViewRef, {
+			format: 'png',
+			quality: 1,
+			// width: 2080,
+			// height: 1920,
+		});
+
+		const fileUri = `${FileSystem.cacheDirectory}progresso.png`;
+		await FileSystem.copyAsync({ from: uri, to: fileUri });
+
+		await Sharing.shareAsync(fileUri);
+		}
+	} catch (error) {
+		console.error('Erro ao compartilhar:', error);
+	} finally {
+		setIsSharing(false);
+	}
+	};
 
 
 
-useEffect(() => {
-	const loadData = async () => {
+
+	useEffect(() => {
+		const loadData = async () => {
 		const points = await getUserPoints();
 		const count = await getHabitsCount();
 		const weekInfo = await getCurrentWeekInfo();
@@ -54,6 +89,7 @@ useEffect(() => {
 	
 	loadPoints();
 	}, [tasks]);
+
 	
 
 	
@@ -84,6 +120,7 @@ useEffect(() => {
 		</View>
 
 		<ScrollView>
+			 <View style={styles.shareContainer} ref={shareViewRef} collapsable={false}>
 			 <BarChartCustom />
 
 			 <View style={styles.cardContainer}>
@@ -114,8 +151,10 @@ useEffect(() => {
 						<Text style={styles.resumeDatas}>{formatTime(weeklyTime)}</Text>
 					</View>
 				</View>
+				{!isSharing && (
 				<View style={styles.saveContainer}>
 					<Pressable
+						onPress={onShareProgress}
 						style={({ pressed }) => [
 						styles.buttonSave,
 						{
@@ -134,8 +173,9 @@ useEffect(() => {
 						)}
 					</Pressable>
 				</View>
-
+				)}
 			 </View>
+			</View>
 		</ScrollView>
 
 	 </SafeAreaProvider>
@@ -145,6 +185,9 @@ useEffect(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+	backgroundColor: "#F8F2EF",
+  },
+  shareContainer: {
 	backgroundColor: "#F8F2EF",
   },
   titleContainer: {
@@ -193,7 +236,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	cardContainer: {
-		height: "100%",
+		height: "50%",
 		borderTopLeftRadius: 35,
 		borderTopRightRadius: 35,
 		backgroundColor: "white",
