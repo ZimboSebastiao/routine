@@ -1,5 +1,6 @@
 import BarChartCustom from '@/components/BarChartCustom';
 import { getCurrentWeekInfo, getUserPoints } from '@/utils/pointsSystem';
+import { getWeeklyTime, updateWeeklyTimeFromTasks } from '@/utils/weeklyTimeTracker';
 import { useRouter } from 'expo-router';
 import { X } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
@@ -11,6 +12,31 @@ export default function Insights() {
 	const router = useRouter();
 	const [weeklyPoints, setWeeklyPoints] = useState(0);
 	const [daysRemaining, setDaysRemaining] = useState(7);
+	const [weeklyTime, setWeeklyTime] = useState(0);
+
+	useEffect(() => {
+		const loadData = async () => {
+		const points = await getUserPoints();
+		const weekInfo = await getCurrentWeekInfo();
+		
+		await updateWeeklyTimeFromTasks();
+		const time = await getWeeklyTime();
+		
+		setWeeklyPoints(points);
+		setDaysRemaining(weekInfo.daysRemaining);
+		setWeeklyTime(time);
+	};
+	
+	loadData();
+	}, [tasks]);
+
+
+	const formatTime = (seconds: number): string => {
+	const hours = Math.floor(seconds / 3600); 
+	const remainingSeconds = seconds % 3600;
+	const minutes = Math.floor(remainingSeconds / 60);
+	return `${hours}h ${minutes}min`;
+	};
 
 	useEffect(() => {
 	const loadPoints = async () => {
@@ -68,7 +94,7 @@ export default function Insights() {
 
 				<View style={styles.resumeContainer}>
 					<View>
-						<Text style={styles.resumeTexts}>Hábito</Text>
+						<Text style={styles.resumeTexts}>Hábitos</Text>
 						<Text style={styles.resumeDatas}>3</Text>
 					</View>
 					<View style={styles.separator} />
@@ -79,7 +105,7 @@ export default function Insights() {
 					<View style={styles.separator} />
 					<View>
 						<Text style={styles.resumeTexts}>Horas</Text>
-						<Text style={styles.resumeDatas}>7h 30min</Text>
+						<Text style={styles.resumeDatas}>{formatTime(weeklyTime)}</Text>
 					</View>
 				</View>
 				<View style={styles.saveContainer}>
