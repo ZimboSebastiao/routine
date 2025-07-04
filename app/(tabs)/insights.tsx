@@ -1,4 +1,5 @@
 import BarChartCustom from '@/components/BarChartCustom';
+import { getHabitsCount } from '@/utils/habitsCounter';
 import { getCurrentWeekInfo, getUserPoints } from '@/utils/pointsSystem';
 import { getWeeklyTime, updateWeeklyTimeFromTasks } from '@/utils/weeklyTimeTracker';
 import { useRouter } from 'expo-router';
@@ -13,16 +14,21 @@ export default function Insights() {
 	const [weeklyPoints, setWeeklyPoints] = useState(0);
 	const [daysRemaining, setDaysRemaining] = useState(7);
 	const [weeklyTime, setWeeklyTime] = useState(0);
+	const [habitsCount, setHabitsCount] = useState(0);
 
-	useEffect(() => {
-		const loadData = async () => {
+
+
+useEffect(() => {
+	const loadData = async () => {
 		const points = await getUserPoints();
+		const count = await getHabitsCount();
 		const weekInfo = await getCurrentWeekInfo();
 		
 		await updateWeeklyTimeFromTasks();
 		const time = await getWeeklyTime();
 		
 		setWeeklyPoints(points);
+		setHabitsCount(count);
 		setDaysRemaining(weekInfo.daysRemaining);
 		setWeeklyTime(time);
 	};
@@ -95,7 +101,7 @@ export default function Insights() {
 				<View style={styles.resumeContainer}>
 					<View>
 						<Text style={styles.resumeTexts}>Hábitos</Text>
-						<Text style={styles.resumeDatas}>3</Text>
+						<Text style={styles.resumeDatas}>{habitsCount}</Text>
 					</View>
 					<View style={styles.separator} />
 					<View>
@@ -239,6 +245,7 @@ const styles = StyleSheet.create({
 	{
 		fontSize: 18,
 		fontWeight: "bold",
+		textAlign: "center"
 	}
 
 });

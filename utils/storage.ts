@@ -1,5 +1,6 @@
 import { Category } from '@/types/category';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { handleHabitsChange } from './habitsCounter';
 
 const HABITS_KEY = '@habits';
 const TASKS_KEY = '@tasks';
@@ -50,6 +51,7 @@ export const saveHabit = async (habit: Omit<Habit, 'id' | 'createdAt'>): Promise
     const updatedHabits = [...existingHabits, newHabit];
     
     await saveAllHabits(updatedHabits);
+	 await handleHabitsChange();
     return newHabit;
   } catch (error) {
     console.error('Error saving habit:', error);
@@ -90,6 +92,7 @@ export const updateHabit = async (id: string, habitData: Partial<Habit>): Promis
     updatedHabits[index] = updatedHabit;
     
     await saveAllHabits(updatedHabits);
+	 await handleHabitsChange();
     return updatedHabit;
   } catch (error) {
     console.error('Error updating habit:', error);
@@ -102,6 +105,7 @@ export const deleteHabitPermanently = async (id: string): Promise<boolean> => {
     const habits = await getHabits();
     const updatedHabits = habits.filter(habit => habit.id !== id);
     await saveAllHabits(updatedHabits);
+	await handleHabitsChange();
     return true;
   } catch (error) {
     console.error('Error deleting habit:', error);
@@ -112,6 +116,7 @@ export const deleteHabitPermanently = async (id: string): Promise<boolean> => {
 export const clearHabits = async (): Promise<void> => {
   try {
     await AsyncStorage.removeItem(HABITS_KEY);
+	await handleHabitsChange();
   } catch (error) {
     console.error('Error clearing habits:', error);
   }
