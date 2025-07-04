@@ -19,36 +19,32 @@ export const calculateTaskPoints = (task: Task): number => {
 const getWeekStartDate = async (): Promise<Date> => {
   try {
     const storedDate = await AsyncStorage.getItem(WEEK_START_KEY);
+    const now = new Date();
     
-    if (storedDate) {
-      const weekStart = new Date(storedDate);
-      const now = new Date();
+    const currentWeekStart = new Date(now);
+    currentWeekStart.setDate(now.getDate() - now.getDay());
+    currentWeekStart.setHours(0, 0, 0, 0);
 
-      const weekEnd = new Date(weekStart);
-      weekEnd.setDate(weekEnd.getDate() + 7);
+    if (storedDate) {
+      const storedWeekStart = new Date(storedDate);
       
-      if (now >= weekEnd) {
-        const newWeekStart = new Date();
-        newWeekStart.setHours(0, 0, 0, 0);
-        await AsyncStorage.setItem(WEEK_START_KEY, newWeekStart.toISOString());
-        await AsyncStorage.setItem(POINTS_KEY, '0'); 
-        return newWeekStart;
+      if (storedWeekStart.getTime() !== currentWeekStart.getTime()) {
+        await AsyncStorage.setItem(WEEK_START_KEY, currentWeekStart.toISOString());
+        await AsyncStorage.setItem(POINTS_KEY, '0');
+        return currentWeekStart;
       }
       
-      return weekStart;
+      return storedWeekStart;
     } else {
-      const newWeekStart = new Date();
-      newWeekStart.setHours(0, 0, 0, 0);
-      await AsyncStorage.setItem(WEEK_START_KEY, newWeekStart.toISOString());
+      await AsyncStorage.setItem(WEEK_START_KEY, currentWeekStart.toISOString());
       await AsyncStorage.setItem(POINTS_KEY, '0');
-      return newWeekStart;
+      return currentWeekStart;
     }
   } catch (error) {
     console.error('Error getting week start date:', error);
     return new Date();
   }
 };
-
 
 export const recordTaskPoints = async (task: Task): Promise<number> => {
   const points = calculateTaskPoints(task);
@@ -72,7 +68,7 @@ export const recordTaskPoints = async (task: Task): Promise<number> => {
 
 export const getUserPoints = async (): Promise<number> => {
   try {
-    await getWeekStartDate();
+    await getWeekStartDate(); 
     
     const points = await AsyncStorage.getItem(POINTS_KEY);
     return points ? parseInt(points, 10) : 0;
@@ -84,33 +80,13 @@ export const getUserPoints = async (): Promise<number> => {
 
 export const getCurrentWeekInfo = async () => {
   const weekStart = await getWeekStartDate();
-  const now = new Date(); 
+  const now = new Date();
   
   const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekEnd.getDate() + 6); 
-  weekEnd.setHours(23, 59, 59, 999); 
+  weekEnd.setDate(weekStart.getDate() + 6);
+  weekEnd.setHours(23, 59, 59, 999);
 
-  if (now > weekEnd) {
-    const newWeekStart = new Date(now);
-    newWeekStart.setDate(newWeekStart.getDate() - newWeekStart.getDay()); 
-    newWeekStart.setHours(0, 0, 0, 0);
-    
-    await AsyncStorage.setItem(WEEK_START_KEY, newWeekStart.toISOString());
-    await AsyncStorage.setItem(POINTS_KEY, '0');
-    
-    const newWeekEnd = new Date(newWeekStart);
-    newWeekEnd.setDate(newWeekEnd.getDate() + 6); 
-    newWeekEnd.setHours(23, 59, 59, 999);
-
-    return {
-      weekStart: newWeekStart,
-      weekEnd: newWeekEnd,
-      daysRemaining: 7 
-    };
-  }
-
-  const today = now.getDay(); 
-  let daysRemaining = 6 - today; 
+  const daysRemaining = Math.max(0, 6 - now.getDay());
 
   return {
     weekStart,
