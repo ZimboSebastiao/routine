@@ -65,12 +65,12 @@ export default function ScrollableBarChart() {
     }
   };
 
-  useEffect(() => {
-    loadChartData();
+//   useEffect(() => {
+//     loadChartData();
     
-    const interval = setInterval(loadChartData, 30000);
-    return () => clearInterval(interval);
-  }, []);
+//     const interval = setInterval(loadChartData, 30000);
+//     return () => clearInterval(interval);
+//   }, []);
 
 
   useEffect(() => {
