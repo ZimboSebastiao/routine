@@ -1,9 +1,10 @@
 import { getCategoryById } from '@/utils/categoryUtils';
-import { getHabitById, getTasks, Habit, saveTask, Task } from '@/utils/storage';
+import { deleteTask, getHabitById, getTasks, Habit, saveTask, Task } from '@/utils/storage';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
+	Alert,
 	Modal,
 	Pressable,
 	SectionList,
@@ -47,6 +48,35 @@ export default function HabitTasksScreen() {
     
     loadData();
   }, [habitId]);
+
+
+
+
+const handleDeleteTask = async (taskId: string) => {
+  Alert.alert(
+    "Confirmar exclusão",
+    "Tem certeza que deseja excluir esta tarefa?",
+    [
+      {
+        text: "Cancelar",
+        style: "cancel"
+      },
+      { 
+        text: "Excluir", 
+        onPress: async () => {
+          try {
+            await deleteTask(taskId);
+            const updatedTasks = tasks.filter(task => task.id !== taskId);
+            setTasks(updatedTasks);
+            groupTasksByDay(updatedTasks);
+          } catch (error) {
+            console.error('Error deleting task:', error);
+          }
+        }
+      }
+    ]
+  );
+};
 
   const groupTasksByDay = (tasks: Task[]) => {
     const today = new Date();
@@ -126,12 +156,16 @@ export default function HabitTasksScreen() {
     
     try {
       const newTask = await saveTask({
-        habitId: habitId as string,
-        title: newTaskTitle,
-        notes: isNotesCategory ? newTaskNotes : undefined,
-        createdAt: new Date().toISOString(),
-        completed: false
-      });
+		  habitId: habitId as string,
+		  title: newTaskTitle,
+		  notes: isNotesCategory ? newTaskNotes : undefined,
+		  createdAt: new Date().toISOString(),
+		  completed: false,
+		  color: '',
+		  description: '',
+		  startTime: '',
+		  endTime: ''
+	  });
       
       const updatedTasks = [...tasks, newTask];
       setTasks(updatedTasks);
@@ -164,30 +198,39 @@ export default function HabitTasksScreen() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Card style={styles.taskCard}>
-            <Card.Content>
-              <View style={styles.taskHeader}>
-                <Text style={styles.taskTitle}>{item.title}</Text>
-                {!isNotesCategory && !item.completed && (
-                  <Pressable 
-                    onPress={() => handleTimerAction(item.id)}
-                    style={styles.playButton}
-                  >
-                    <FontAwesome name="play" size={20} color="#FF7617" />
-                  </Pressable>
-                )}
-                {!isNotesCategory && item.timeSpent && (
-                  <Text style={styles.timeText}>{formatTaskTime(item.timeSpent)}</Text>
-                )}
-              </View>
-              
-              {isNotesCategory && item.notes && (
-                <Text style={styles.taskNotes}>{item.notes}</Text>
-              )}
-              
-              <Text style={styles.createdAt}>
-                Criado em: {new Date(item.createdAt).toLocaleDateString()}
-              </Text>
-            </Card.Content>
+
+<Card.Content>
+  <View style={styles.taskHeader}>
+    <Text style={styles.taskTitle}>{item.title}</Text>
+    <View style={styles.taskActions}>
+      {!isNotesCategory && !item.completed && (
+        <Pressable 
+          onPress={() => handleTimerAction(item.id)}
+          style={styles.actionButton}
+        >
+          <FontAwesome name="play" size={20} color="#FF7617" />
+        </Pressable>
+      )}
+      {!isNotesCategory && item.timeSpent && (
+        <Text style={styles.timeText}>{formatTaskTime(item.timeSpent)}</Text>
+      )}
+      <Pressable 
+        onPress={() => handleDeleteTask(item.id)}
+        style={styles.actionButton}
+      >
+        <Feather name="trash-2" size={20} color="#ff3b30" />
+      </Pressable>
+    </View>
+  </View>
+  
+  {isNotesCategory && item.notes && (
+    <Text style={styles.taskNotes}>{item.notes}</Text>
+  )}
+  
+  <Text style={styles.createdAt}>
+    Criado em: {new Date(item.createdAt).toLocaleDateString()}
+  </Text>
+</Card.Content>
           </Card>
         )}
         renderSectionHeader={({ section }) => (
@@ -399,6 +442,13 @@ const styles = StyleSheet.create({
     color: '#666',
     fontWeight: '600',
   },
-  
+taskActions: {
+  flexDirection: 'row',
+  alignItems: 'center',
+},
+actionButton: {
+  marginLeft: 12,
+  padding: 4,
+},
 
 });

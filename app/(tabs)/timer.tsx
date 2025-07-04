@@ -14,73 +14,109 @@ export default function TimerScreen() {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [isFinishing, setIsFinishing] = useState(false);
+  const [isTaskCompleted, setIsTaskCompleted] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    setIsActive(false);
-    setIsFinishing(false);
-    setSeconds(0);
-    
-    const loadTaskTime = async () => {
-      try {
-        const tasks = await getTasks();
-        const task = tasks.find(t => t.id === taskId);
-        
-        if (task?.timeSpent) {
-          setSeconds(task.timeSpent);
-        }
-        
-        if (task?.completed) {
-          setIsFinishing(true);
-        }
-      } catch (error) {
-        console.error('Error loading task:', error);
-      }
-    };
-    
-    loadTaskTime();
-  }, [taskId]); 
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval> | null = null;
-    
-    if (isActive && !isFinishing) {
-      interval = setInterval(() => {
-        setSeconds(prev => prev + 1);
-      }, 1000);
-    } else if (interval) {
-      clearInterval(interval);
-    }
-    
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isActive, isFinishing]);
+	useEffect(() => {
+	const loadInitialState = async () => {
+		try {
+		const tasks = await getTasks();
+		const task = tasks.find(t => t.id === taskId);
+		
+		if (task?.completed) {
+			setIsFinishing(true);
+			setIsTaskCompleted(true);
+			setSeconds(task.timeSpent || 0);
+		} else {
+			setSeconds(task?.timeSpent || 0);
+		}
+		} catch (error) {
+		console.error('Error loading task:', error);
+		}
+	};
 
-  const handleToggle = () => {
+	loadInitialState();
+	return () => {
+		setIsActive(false);
+		setIsFinishing(false);
+		setIsTaskCompleted(false);
+	};
+	}, [taskId]);
+
+	useEffect(() => {
+	let interval: ReturnType<typeof setInterval> | null = null;
+	
+	if (isActive && !isFinishing && !isTaskCompleted) {
+		interval = setInterval(() => {
+		setSeconds(prev => {
+			if (prev >= 86399) return 86400; 
+			return prev + 1;
+		});
+		}, 1000);
+	}
+
+	return () => {
+		if (interval) clearInterval(interval);
+	};
+	}, [isActive, isFinishing, isTaskCompleted]);
+
+  const handleToggle = async () => {
     if (!isFinishing) {
+      if (!isActive) {
+        const tasks = await getTasks();
+        const currentTask = tasks.find(t => t.id === taskId);
+        
+        if (!currentTask?.startTime) {
+          await updateTask(taskId as string, {
+            startTime: new Date().toISOString()
+          });
+        }
+      }
       setIsActive(!isActive);
     }
   };
 
-  const handleFinish = async () => {
-    try {
-      setIsFinishing(true);
-      setIsActive(false);
-      
-      await updateTask(taskId as string, { 
-        timeSpent: seconds,
-        completed: true
-      });
-      
-      router.replace({
-        pathname: '/(tabs)/tasks',
-        params: { habitId: taskId, refreshed: Date.now() }
-      });
-    } catch (error) {
-      console.error('Error finishing timer:', error);
-      setIsFinishing(false);
-    }
-  };
+	const handleFinish = async () => {
+	try {
+		setIsFinishing(true);
+		setIsActive(false);
+		setIsTaskCompleted(true); 
+
+		const finalSeconds = seconds > 0 ? seconds : 1;
+		setSeconds(finalSeconds);
+
+		const tasks = await getTasks();
+		const currentTask = tasks.find(t => t.id === taskId);
+		
+		const now = new Date();
+		const startTime = currentTask?.startTime || new Date(now.getTime() - finalSeconds * 1000).toISOString();
+
+		console.log('Finishing task:', {
+		taskId,
+		finalSeconds,
+		startTime,
+		endTime: now.toISOString()
+		});
+
+		await updateTask(taskId as string, {
+		timeSpent: finalSeconds,
+		completed: true,
+		startTime: startTime,
+		endTime: now.toISOString()
+		});
+
+		setTimeout(() => {
+		router.replace({
+			pathname: '/(tabs)/tasks',
+			params: { habitId: taskId, refreshed: Date.now() }
+		});
+		}, 300);
+	} catch (error) {
+		console.error('Error finishing timer:', error);
+		setIsFinishing(false);
+		setIsTaskCompleted(false);
+	}
+	};
 
   const formatTime = (totalSeconds: number): string => {
     const hours = Math.floor(totalSeconds / 3600);
@@ -119,10 +155,10 @@ export default function TimerScreen() {
           style={[
             styles.button, 
             styles.finishButton,
-            isFinishing && styles.disabledButton
+            (isFinishing || seconds === 0) && styles.disabledButton
           ]}
           onPress={handleFinish}
-          disabled={isFinishing}
+          disabled={isFinishing || seconds === 0}
         >
           {isFinishing ? (
             <ActivityIndicator color="white" />

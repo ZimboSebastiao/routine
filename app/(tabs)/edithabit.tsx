@@ -1,4 +1,3 @@
-// app/edithabit.tsx
 import CategorySelector from '@/components/CategorySelector';
 import { editHabitWithNotifications } from '@/services/habitManager';
 import { Category } from '@/types/category';

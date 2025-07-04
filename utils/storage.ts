@@ -28,6 +28,10 @@ export interface Task {
   completed: boolean;
   timeSpent?: number; 
   notes?: string; 
+  description: string;
+  startTime: string; 
+  endTime: string;   
+  color: string; 
 }
 
 const saveAllHabits = async (habits: Habit[]) => {
@@ -160,6 +164,18 @@ export const updateTask = async (id: string, updates: Partial<Task>): Promise<Ta
     return updatedTask;
   } catch (error) {
     console.error('Error updating task:', error);
+    throw error;
+  }
+};
+
+export const deleteTask = async (id: string): Promise<boolean> => {
+  try {
+    const tasks = await getTasks();
+    const updatedTasks = tasks.filter(task => task.id !== id);
+    await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(updatedTasks));
+    return true;
+  } catch (error) {
+    console.error('Error deleting task:', error);
     throw error;
   }
 };

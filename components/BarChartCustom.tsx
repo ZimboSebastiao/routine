@@ -15,13 +15,8 @@ const GAP = 20;
 
 const subjects = [
   { name: "Matemática", percentage: 78, color: "#4B2E2B" },
-  { name: "Português", percentage: 33, color: "#A6511E" },
   { name: "Inglês", percentage: 57, color: "#84B94E" },
   { name: "Programação", percentage: 40, color: "#E08ED3" },
-  { name: "Geografia", percentage: 12, color: "#3BAEDA" },
-  { name: "Física", percentage: 25, color: "#FF5733" },
-  { name: "Química", percentage: 60, color: "#33FFBA" },
-  { name: "História", percentage: 10, color: "#A020F0" },
 ];
 
 const chartWidth = subjects.length * (BAR_WIDTH + GAP);

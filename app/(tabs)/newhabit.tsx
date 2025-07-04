@@ -33,7 +33,6 @@ export default function NewHabit() {
     if (selectedDate) {
       setDate(selectedDate);
       setDisplayValue(selectedDate.toLocaleDateString('pt-BR'));
-      // Clear date error when date is selected
       if (errors.date) {
         const newErrors = {...errors};
         delete newErrors.date;
@@ -44,7 +43,6 @@ export default function NewHabit() {
 
   const onToggleSwitch = () => {
     setIsSwitchOn(!isSwitchOn);
-    // Clear reminder error when toggling
     if (errors.reminder) {
       const newErrors = {...errors};
       delete newErrors.reminder;
@@ -68,7 +66,6 @@ export default function NewHabit() {
 	if (!validateForm()) return;
 
 	try {
-		// Verifica permissões para notificações
 		if (isSwitchOn) {
 		const hasPermission = await requestNotificationPermissions();
 		if (!hasPermission) {
@@ -97,10 +94,8 @@ export default function NewHabit() {
 		await scheduleHabitReminders(savedHabit);
 		}
 
-		// Resetar o formulário após salvar
 		resetForm();
 		
-		// Mostrar mensagem de sucesso e redirecionar
 		Alert.alert('Sucesso', 'Hábito criado com sucesso!', [
 		{ text: 'OK', onPress: () => router.push('/') }
 		]);
@@ -113,17 +108,14 @@ export default function NewHabit() {
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    // Validação do título
     if (!habitTitle || !habitTitle.trim()) {
       newErrors.title = 'Por favor, insira um título para o hábito';
     }
 
-    // Validação da categoria
     if (!selectedCategory) {
       newErrors.category = 'Por favor, selecione uma categoria';
     }
 
-    // Validação da meta (checkbox1)
     if (checked) {
       if (!displayValue) {
         newErrors.date = 'Por favor, selecione uma data de término';
@@ -137,7 +129,6 @@ export default function NewHabit() {
       }
     }
 
-    // Validação da frequência (checkbox2)
     if (checked2) {
       if (selectedQuantity === undefined || selectedQuantity <= 0) {
         newErrors.months = 'Por favor, selecione uma duração válida';
@@ -148,7 +139,6 @@ export default function NewHabit() {
       }
     }
 
-    // Validação do switch de lembretes
     if (isSwitchOn) {
       if (!checked2) {
         newErrors.reminder = 'Ative a frequência semanal para receber lembretes';
@@ -163,7 +153,6 @@ export default function NewHabit() {
 
   const handleCheckbox1Toggle = () => {
     setChecked(!checked);
-    // Clear date error when toggling checkbox
     if (errors.date) {
       const newErrors = {...errors};
       delete newErrors.date;
@@ -173,7 +162,6 @@ export default function NewHabit() {
 
   const handleCheckbox2Toggle = () => {
     setChecked2(!checked2);
-    // Clear frequency errors when toggling checkbox
     if (errors.months || errors.days || errors.reminder) {
       const newErrors = {...errors};
       delete newErrors.months;

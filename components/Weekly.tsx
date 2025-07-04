@@ -1,88 +1,152 @@
+import { Task } from '@/utils/storage';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export const Weekly = () => {
-  const [currentWeek, setCurrentWeek] = useState<Date[]>([]);
-  const [selectedDay, setSelectedDay] = useState<Date>(new Date());
-  const [selectedHour, setSelectedHour] = useState<string | null>(null);
+interface WeeklyProps {
+  tasks: Task[];
+  selectedDay: Date;
+  onSelectDay: (day: Date) => void;
+}
 
-  // Gera os dias da semana (Domingo a Sábado)
-  const generateWeekDays = (startDate: Date = new Date()) => {
+export const Weekly = ({ tasks, selectedDay, onSelectDay }: WeeklyProps) => {
+  const [currentWeek, setCurrentWeek] = useState<Date[]>([]);
+  const PIXELS_PER_MINUTE = 1;
+  const fallbackColors = ['#FFE8A3', '#D4A5ED', '#FFA3B1', '#A3D1FF'];
+
+  const generateWeekDays = () => {
+    if (isNaN(selectedDay.getTime())) {
+      console.warn('Invalid selectedDay, using current date instead');
+      selectedDay = new Date(); 
+    }
+
     const days = [];
-    const current = new Date(startDate);
-    // Vai para o domingo
+    const current = new Date(selectedDay);
     current.setDate(current.getDate() - current.getDay());
-    
+
     for (let i = 0; i < 7; i++) {
       const day = new Date(current);
       day.setDate(current.getDate() + i);
       days.push(day);
     }
-    
     return days;
   };
 
-  // Gera horários das 8h às 20h
-  const generateHours = () => {
-    const hours = [];
-    for (let i = 8; i <= 20; i++) {
-      hours.push(`${i.toString().padStart(2, '0')}:00`);
-    }
-    return hours;
+  const processTasksForDay = () => {
+    const dayTasks = tasks
+      .filter(task => {
+        const taskDate = task.startTime 
+          ? new Date(task.startTime) 
+          : task.createdAt 
+            ? new Date(task.createdAt) 
+            : new Date();
+
+        if (isNaN(taskDate.getTime())) {
+          console.warn('Invalid task date:', task);
+          return false;
+        }
+
+        return (
+          taskDate.getDate() === selectedDay.getDate() &&
+          taskDate.getMonth() === selectedDay.getMonth() &&
+          taskDate.getFullYear() === selectedDay.getFullYear()
+        );
+      })
+      .map((task, index) => {
+
+        let startTime = task.startTime 
+          ? new Date(task.startTime) 
+          : task.createdAt 
+            ? new Date(task.createdAt) 
+            : new Date();
+
+        if (isNaN(startTime.getTime())) {
+          console.warn('Invalid startTime, using current time:', task);
+          startTime = new Date();
+        }
+
+        let duration = 1; 
+        
+        if (task.completed && task.endTime) {
+          const endTime = new Date(task.endTime);
+          if (!isNaN(endTime.getTime())) {
+            duration = Math.max(1, Math.floor((endTime.getTime() - startTime.getTime()) / 60000));
+          }
+        } else {
+          duration = Math.max(1, Math.min(1440, task.timeSpent || 30));
+        }
+
+        return {
+          ...task,
+          color: task.color || fallbackColors[index % fallbackColors.length],
+          startTime: startTime.toISOString(),
+          endTime: new Date(startTime.getTime() + duration * 60000).toISOString(),
+          startMinutes: startTime.getHours() * 60 + startTime.getMinutes(),
+          durationMinutes: duration,
+        };
+      })
+      .sort((a, b) => a.startMinutes - b.startMinutes);
+
+    const groupedTasks: any[][] = [];
+    dayTasks.forEach(task => {
+      let placed = false;
+      for (const group of groupedTasks) {
+        const lastTask = group[group.length - 1];
+        const lastEnd = lastTask.startMinutes + lastTask.durationMinutes;
+        if (task.startMinutes >= lastEnd) {
+          group.push(task);
+          placed = true;
+          break;
+        }
+      }
+      if (!placed) groupedTasks.push([task]);
+    });
+
+    return groupedTasks;
   };
 
-  // Formata o dia da semana (DOM, SEG, TER...)
-  const formatWeekDay = (date: Date) => {
-    const days = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-    return days[date.getDay()];
+  const formatTime = (date: Date) => {
+    if (isNaN(date.getTime())) return '00:00';
+    return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
   };
 
-  // Verifica se é hoje
-  const isToday = (date: Date) => {
-    const today = new Date();
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    );
-  };
-
-  // Inicializa a semana atual
   useEffect(() => {
     setCurrentWeek(generateWeekDays());
-  }, []);
+  }, [selectedDay]);
+
+  const taskGroups = processTasksForDay();
+  const calendarHeight = 24 * 60 * PIXELS_PER_MINUTE;
+  const now = new Date();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
   return (
-    <View style={styles.container}>
-      {/* Cabeçalho com dias da semana */}
+    <ScrollView style={styles.container}>
       <View style={styles.weekHeader}>
         {currentWeek.map((day, i) => (
           <Text key={i} style={styles.weekDayText}>
-            {formatWeekDay(day)}
+            {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'][day.getDay()]}
           </Text>
         ))}
       </View>
 
-      {/* Dias do mês */}
       <View style={styles.daysContainer}>
         {currentWeek.map((day, i) => {
           const isSelected = day.toDateString() === selectedDay.toDateString();
-          const isCurrent = isToday(day);
+          const isToday = new Date().toDateString() === day.toDateString();
 
           return (
             <TouchableOpacity
               key={i}
               style={[
                 styles.dayContainer,
-                isCurrent && styles.currentDay,
+                isToday && styles.currentDay,
                 isSelected && styles.selectedDay
               ]}
-              onPress={() => setSelectedDay(day)}
+              onPress={() => onSelectDay(day)}
             >
               <Text style={[
                 styles.dayText,
                 isSelected && styles.selectedDayText,
-                isCurrent && !isSelected && styles.currentDayText
+                isToday && !isSelected && styles.currentDayText
               ]}>
                 {day.getDate()}
               </Text>
@@ -91,29 +155,67 @@ export const Weekly = () => {
         })}
       </View>
 
-      {/* Lista de horários */}
-      <ScrollView style={styles.hoursScroll}>
-        {generateHours().map((hour, i) => (
-          <TouchableOpacity
-            key={i}
+      <View style={[styles.calendarContainer, { height: calendarHeight }]}>
+        {Array.from({ length: 25 }).map((_, i) => (
+          <View 
+            key={`line-${i}`} 
             style={[
-              styles.hourItem,
-              selectedHour === hour && styles.selectedHour
+              styles.timeLine,
+              { top: i * 60 * PIXELS_PER_MINUTE }
             ]}
-            onPress={() => setSelectedHour(hour)}
           >
-            <Text style={styles.hourText}>{hour}</Text>
-          </TouchableOpacity>
+            <Text style={styles.timeText}>{`${i.toString().padStart(2, '0')}:00`}</Text>
+          </View>
         ))}
-      </ScrollView>
-    </View>
+
+        {/* Linha do tempo atual */}
+        <View
+          style={{
+            position: 'absolute',
+            top: nowMinutes * PIXELS_PER_MINUTE,
+            left: 0,
+            right: 0,
+            height: 2,
+            backgroundColor: 'green',
+          }}
+        />
+
+        <View style={styles.tasksContainer}>
+          {taskGroups.map((group, groupIndex) => (
+            <View key={`group-${groupIndex}`} style={styles.taskGroup}>
+              {group.map(task => (
+                <View
+                  key={task.id}
+                  style={[
+                    styles.taskItem,
+                    { 
+                      top: task.startMinutes * PIXELS_PER_MINUTE,
+                      height: Math.max(40, task.durationMinutes * PIXELS_PER_MINUTE),
+                      backgroundColor: task.color,
+                    }
+                  ]}
+                >
+                  <View style={styles.taskContent}>
+                    <Text style={styles.taskTitle} numberOfLines={1} ellipsizeMode="tail">
+                      {task.title}
+                    </Text>
+                    <Text style={styles.taskTimeText}>
+                      {formatTime(new Date(task.startTime))} - {formatTime(new Date(task.endTime))}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          ))}
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
     padding: 10,
   },
   weekHeader: {
@@ -131,7 +233,7 @@ const styles = StyleSheet.create({
   daysContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 25,
   },
   dayContainer: {
     width: 40,
@@ -160,22 +262,66 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
-  hoursScroll: {
+  calendarContainer: {
+    position: 'relative',
+    marginLeft: 40,
+    borderLeftWidth: 1,
+    borderLeftColor: '#E2E2E0',
+  },
+  timeLine: {
+    position: 'absolute',
+    left: -50,
+    right: 0,
+    height: 0.5,
+    backgroundColor: '#E2E2E0',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  timeText: {
+    width: 45,
+    textAlign: 'right',
+    paddingRight: 5,
+    fontSize: 12,
+    color: '#555',
+    marginTop: -18,
+  },
+  tasksContainer: {
     flex: 1,
+    position: 'relative',
+    minHeight: 0,
   },
-  hourItem: {
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E2E2E0',
+  taskGroup: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
   },
-  selectedHour: {
-    backgroundColor: '#FFF5EF',
-    borderLeftWidth: 3,
-    borderLeftColor: '#FF7617',
+  taskItem: {
+    position: 'absolute',
+    borderRadius: 12,
+    padding: 10,
+    backgroundColor: "red",
+    justifyContent: 'flex-start',
+    overflow: 'hidden',
+    marginHorizontal: 34,
   },
-  hourText: {
-    fontSize: 16,
-    color: '#333',
-    marginLeft: 12,
+  taskTitle: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginBottom: 2,
+  },
+  taskDescription: {
+    color: 'white',
+    fontSize: 12,
+    opacity: 0.85,
+  },
+  taskTimeText: {
+    color: 'white',
+    fontSize: 10,
+    opacity: 0.8,
+  },
+  taskContent: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
