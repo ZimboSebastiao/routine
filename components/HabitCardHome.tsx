@@ -1,7 +1,7 @@
 import { getCategoryById } from '@/utils/categoryUtils';
 import { Habit } from '@/utils/storage';
 import { useRouter } from 'expo-router';
-import { BellRing, Play } from 'lucide-react-native';
+import { Play } from 'lucide-react-native';
 import React from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Card } from 'react-native-paper';
@@ -48,16 +48,6 @@ export const HabitCardHome = ({ habit, onEdit, onDelete }: HabitCardProps) => {
 				</View>
 				
 				<View style={styles.habitInfo}>
-
-				
-				{habit.hasReminder && (
-					<View style={styles.detailRow}>
-					<BellRing size={16} color="#666" />
-					<Text style={styles.habitDetail}>
-						Lembretes: {habit.reminderTime} nos dias selecionados
-					</Text>
-					</View>
-				)}
 				</View>
 			</Card.Content>
 		</Card>
@@ -121,8 +111,9 @@ categoryText: {
   },
   habitDetail: {
     fontSize: 13,
-    color: '#666',
+    color: 'gray',
     marginLeft: 8,
+	fontWeight: "600",
   },
   containerFlags: {
 	flexDirection: "row-reverse",

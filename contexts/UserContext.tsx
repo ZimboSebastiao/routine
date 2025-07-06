@@ -1,21 +1,38 @@
+import { getUserName } from '@/utils/onboarding';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface UserContextType {
   avatarUri: string | null;
   setAvatarUri: (uri: string | null) => Promise<void>;
-  userName: string;
+  userName: string | null;
 }
 
 const UserContext = createContext<UserContextType>({
   avatarUri: null,
   setAvatarUri: async () => {},
-  userName: 'Zimbo Sebastiao',
+  userName: null,
 });
 
 export const UserProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [avatarUri, setAvatarUriState] = useState<string | null>(null);
-  const userName = 'Zimbo Sebastiao';
+  const [userName, setUserName] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+    const loadUserName = async () => {
+      try {
+        const name = await getUserName();
+        setUserName(name);
+      } catch (error) {
+        console.error('Error loading user name:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadUserName();
+  }, []);
 
   // Carrega a imagem salva ao iniciar
   useEffect(() => {
@@ -33,7 +50,7 @@ export const UserProvider: React.FC<{children: React.ReactNode}> = ({ children }
     loadAvatar();
   }, []);
 
-  // Função para atualizar tanto o estado quanto o AsyncStorage
+
   const setAvatarUri = async (uri: string | null) => {
     try {
       setAvatarUriState(uri);

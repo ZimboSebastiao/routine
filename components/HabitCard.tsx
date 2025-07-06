@@ -63,18 +63,18 @@ export const HabitCard = ({ habit, onEdit, onDelete }: HabitCardProps) => {
 				</View>
 			)}
 		  </View>
-          <View style={[styles.categoryBadge, { backgroundColor: category?.color || '#A278C6' }]}>
-            <Text style={styles.categoryText}>{category?.name || 'Sem categoria'}</Text>
-          </View>
-          
           {habit.hasReminder && (
             <View style={styles.detailRow}>
               <BellRing size={16} color="#666" />
               <Text style={styles.habitDetail}>
-                Lembretes: {habit.reminderTime} nos dias selecionados
+                Lembrete: {habit.reminderTime} nos dias selecionados
               </Text>
             </View>
           )}
+          <View style={[styles.categoryBadge, { backgroundColor: category?.color || '#A278C6' }]}>
+            <Text style={styles.categoryText}>{category?.name || 'Sem categoria'}</Text>
+          </View>
+          
         </View>
       </Card.Content>
     </Card>
@@ -137,7 +137,7 @@ categoryText: {
   },
   habitDetail: {
     fontSize: 13,
-    color: '#666',
+    color: 'gray',
     marginLeft: 8,
   },
   containerFlags: {

@@ -20,6 +20,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   const { avatarUri, setAvatarUri, userName } = useUser();
 
   const getInitials = () => {
+	 if (!userName) return 'US';
     const names = userName.split(' ');
     return names
       .map(name => name[0])

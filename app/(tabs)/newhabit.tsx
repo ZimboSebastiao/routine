@@ -86,6 +86,7 @@ export default function NewHabit() {
 		},
 		hasReminder: isSwitchOn,
 		reminderTime: isSwitchOn ? '08:00' : undefined,
+		color: selectedCategory?.color || '#A278C6',
 		};
 
 		const savedHabit = await saveHabit(newHabit);

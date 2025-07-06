@@ -1,6 +1,6 @@
 import * as Notifications from 'expo-notifications';
+import { Platform } from 'react-native';
 import { Habit } from './storage';
-
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -18,6 +18,9 @@ export const scheduleHabitReminders = async (habit: Habit): Promise<void> => {
   await cancelHabitReminders(habit.id);
 
   for (const day of habit.frequency.selectedDays) {
+
+    const androidDay = day === 0 ? 7 : day; 
+    
     await Notifications.scheduleNotificationAsync({
       content: {
         title: 'Lembrete de Hábito',
@@ -26,11 +29,19 @@ export const scheduleHabitReminders = async (habit: Habit): Promise<void> => {
         data: { habitId: habit.id },
       },
       trigger: {
-        type: 'calendar',  
-        weekday: day,
-        hour: 8, 
-        minute: 0,
-        repeats: true,
+
+        ...(Platform.OS === 'ios' ? {
+          type: 'calendar',
+          weekday: day,
+          hour: 8,
+          minute: 0,
+          repeats: true
+        } : {
+          type: 'daily',
+          hour: 8,
+          minute: 0,
+          repeats: true
+        })
       } as Notifications.NotificationTriggerInput,
     });
   }
