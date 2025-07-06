@@ -1,6 +1,7 @@
+import { ChevronDown } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { ChevronDown } from 'react-native-feather';
+
 
 interface MonthPickerProps {
   selectedQuantity: number | undefined;

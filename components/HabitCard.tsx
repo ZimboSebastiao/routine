@@ -1,6 +1,6 @@
 import { getCategoryById } from '@/utils/categoryUtils';
 import { Habit } from '@/utils/storage';
-import { Feather } from '@expo/vector-icons';
+import { BellRing, CalendarClock, Flag } from 'lucide-react-native';
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Card, IconButton } from 'react-native-paper';
@@ -47,7 +47,7 @@ export const HabitCard = ({ habit, onEdit, onDelete }: HabitCardProps) => {
           <View style={styles.containerFlags}>
 			{habit.hasGoal && habit.endDate && (
 				<View style={styles.detailRow}>
-				<Feather name="flag" size={16} color="#666" />
+				<Flag size={16} color="#666" />
 				<Text style={styles.habitDetail}>
 					{new Date(habit.endDate).toLocaleDateString('pt-BR')}
 				</Text>
@@ -56,7 +56,7 @@ export const HabitCard = ({ habit, onEdit, onDelete }: HabitCardProps) => {
 			
 			{habit.frequency.hasFrequency && (
 				<View style={styles.detailRow}>
-				<Feather name="calendar" size={16} color="#666" />
+				<CalendarClock size={16} color="#666" />
 				<Text style={styles.habitDetail}>
 					{habit.monthsGoal} meses, {habit.frequency.selectedDays.length} dias
 				</Text>
@@ -69,7 +69,7 @@ export const HabitCard = ({ habit, onEdit, onDelete }: HabitCardProps) => {
           
           {habit.hasReminder && (
             <View style={styles.detailRow}>
-              <Feather name="bell" size={16} color="#666" />
+              <BellRing size={16} color="#666" />
               <Text style={styles.habitDetail}>
                 Lembretes: {habit.reminderTime} nos dias selecionados
               </Text>

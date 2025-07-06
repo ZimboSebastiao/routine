@@ -1,8 +1,9 @@
 import { Category } from '@/types/category';
 import { CATEGORIES } from '@/utils/categoryUtils';
+import { ChevronDown } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { ChevronDown } from 'react-native-feather';
+
 
 interface CategorySelectorProps {
   selectedCategory: Category | null;

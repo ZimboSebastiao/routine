@@ -1,8 +1,7 @@
 import { getCategoryById } from '@/utils/categoryUtils';
 import { deleteTask, getHabitById, getTasks, Habit, saveTask, Task } from '@/utils/storage';
-import { Feather } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Play, X } from 'lucide-react-native';
+import { Play, Plus, Trash2, X } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
 	Alert,
@@ -240,7 +239,7 @@ const handleDeleteTask = async (taskId: string) => {
 							style={styles.actionButton}
 						>
 						<View style={styles.playButton}>
-							<Feather name="trash" size={20} color="white" />
+							<Trash2 size={20} color="white" />
 						</View>
 						</Pressable>
 						</View>
@@ -268,7 +267,7 @@ const handleDeleteTask = async (taskId: string) => {
           		<Text style={styles.emptyText}>Nenhuma tarefa criada ainda</Text>
         	}/>
 			<Pressable style={styles.addButton} onPress={() => setModalVisible(true)}>
-        		<Feather name="plus" size={24} color="white" />
+        		<Plus size={24} color="white" />
       		</Pressable>
       
 			<Modal

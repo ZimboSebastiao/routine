@@ -1,8 +1,7 @@
 import { getCategoryById } from '@/utils/categoryUtils';
 import { Habit } from '@/utils/storage';
-import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Play } from 'lucide-react-native';
+import { BellRing, Play } from 'lucide-react-native';
 import React from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Card } from 'react-native-paper';
@@ -53,7 +52,7 @@ export const HabitCardHome = ({ habit, onEdit, onDelete }: HabitCardProps) => {
 				
 				{habit.hasReminder && (
 					<View style={styles.detailRow}>
-					<Feather name="bell" size={16} color="#666" />
+					<BellRing size={16} color="#666" />
 					<Text style={styles.habitDetail}>
 						Lembretes: {habit.reminderTime} nos dias selecionados
 					</Text>

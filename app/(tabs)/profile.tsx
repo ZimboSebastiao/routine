@@ -1,6 +1,6 @@
 import UserAvatar from '@/components/UserAvatar';
 import { getUserName } from '@/utils/onboarding';
-import { Feather, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { Award, CalendarCheck, SquareActivity } from 'lucide-react-native';
 import * as React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
@@ -47,17 +47,17 @@ export default function Profile() {
 
       <View style={styles.statsContainer}>
         <View style={styles.statItem}>
-          <MaterialIcons name="local-activity" size={24} color="#6B1E9C" />
+          <SquareActivity  size={24} color="#6B1E9C" />
           <Text style={styles.statLabel}>Atividades</Text>
         </View>
         
         <View style={styles.statItem}>
-          <Feather name="award" size={24} color="#6B1E9C" />
+          <Award size={24} color="#6B1E9C" />
           <Text style={styles.statLabel}>Conquistas</Text>
         </View>
         
         <View style={styles.statItem}>
-          <FontAwesome name="calendar-check-o" size={24} color="#6B1E9C" />
+          <CalendarCheck size={24} color="#6B1E9C" />
           <Text style={styles.statLabel}>Presença</Text>
         </View>
       </View>
