@@ -5,6 +5,7 @@ import WeeklyCalendar from "@/components/WeeklyCalendar";
 import { useGreeting } from "@/hooks/useGreeting";
 import { deleteHabitCompletely } from '@/services/habitManager';
 import { formatFullDateCapitalized } from "@/utils/dateFormatter";
+import { getUserName } from '@/utils/onboarding';
 import { getHabits, Habit } from '@/utils/storage';
 import { Image } from 'expo-image';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -26,6 +27,22 @@ export default function HomeScreen() {
 	const today = new Date();
 	const [habits, setHabits] = useState<Habit[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [userName, setUserName] = React.useState<string | null>(null);
+
+	   React.useEffect(() => {
+		 const loadUserName = async () => {
+		   try {
+			 const name = await getUserName();
+			 setUserName(name);
+		   } catch (error) {
+			 console.error('Error loading user name:', error);
+		   } finally {
+			 setLoading(false);
+		   }
+		 };
+		 
+		 loadUserName();
+	   }, []);
 
 	  const loadHabits = async () => {
 		try {
@@ -70,7 +87,7 @@ export default function HomeScreen() {
 		<View style={styles.stepContainer}>
 			<View>
 				<Text style={styles.textStepContainer}>
-					{greeting}, Zimbo
+					{greeting}, {userName || 'Usuário'}
 				</Text>
 				<Text style={styles.todayText}>{formatFullDateCapitalized(today)}</Text>
 			</View>
