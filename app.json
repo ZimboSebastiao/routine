@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Daily Glow",
-    "slug": "Daily Glow",
+    "name": "Habitus",
+    "slug": "Habitus",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "Daily Glow",
+    "scheme": "Habitus",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
